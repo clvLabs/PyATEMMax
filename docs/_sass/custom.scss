@@ -1,0 +1,47 @@
+code {
+  color: #ddd;
+}
+
+pre {
+  color: #aaa;
+}
+
+a, a:visited {
+  color: #4e6bca;
+}
+
+.dropdown {
+  display: inline-block;
+}
+
+.btn-dark {
+  background-color: #222;
+  border-color: #222;
+}
+
+button>a, button>a:visited {
+  color: #aaa;
+}
+
+.dropdown-menu {
+  color: #4e6bca;
+  background-color: #222;
+  line-height: 30px;
+}
+
+.dropdown-submenu {
+  left: 100px;
+}
+
+.dropdown-menu>li>a {
+  color: #aaa;
+}
+
+.dropdown-menu>li>a:hover {
+  color: #aaa;
+  background-color: #333;
+}
+
+.svg-icon {
+  padding: 0;
+}

@@ -1,0 +1,38 @@
+{% for l1 in site.data.nav %}
+{% if l1.l2 != null %}
+<div class="dropdown">
+
+    <button class="btn btn-dark dropdown-toggle" type="button" data-hover="dropdown" data-animations="fadeIn fadeIn fadeIn fadeIn" >
+        <a href="{{ site.baseurl }}/{{ l1.url }}">{{ l1.title }} <span class="caret"></span></a>
+    </button>
+
+    <ul class="dropdown-menu">
+        {% for l2 in l1.l2 %}
+        {% if l2.l3 != null %}
+        <li class="dropdown">
+            <a href="{{ site.baseurl }}/{{ l1.url }}/{{ l2.url }}">{{ l2.title }} <span class="caret"></span></a>
+            <ul class="dropdown-menu dropdown-submenu">
+
+            {% for l3 in l2.l3 %}
+
+            <li><a href="{{ site.baseurl }}/{{ l1.url }}/{{ l2.url }}/{{ l3.url }}">{{ l3.title }}</a></li>
+
+            {% endfor %}
+
+            </ul>
+        </li>
+        {% else %}
+        <li><a href="{{ site.baseurl }}/{{ l1.url }}/{{ l2.url }}">{{ l2.title }}</a></li>
+        {% endif %}
+
+
+        {% endfor %}
+
+    </ul>
+</div>
+{% else %}
+<button class="btn btn-dark" type="button">
+    <a href="{{ site.baseurl }}/{{ l1.url }}">{{ l1.title }}</a>
+</button>
+{% endif %}
+{% endfor %}

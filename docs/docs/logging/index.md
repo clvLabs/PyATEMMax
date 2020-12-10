@@ -1,0 +1,218 @@
+---
+layout: page
+title: Docs - Logging
+permalink: /docs/logging/
+---
+
+`PyATEMMax` can be configured for different levels of logging output.
+
+If you want to have log output from `PyATEMMax` you will have to import the Python [logging](https://docs.python.org/3/library/logging.html) library.
+
+
+## Not using the logging library
+
+If the `logging` module is not used, `PyATEMMax` will be silent, it will not show any messages on the console.
+
+As an example, this code will only output what you see in the `print()` statements:
+
+{% highlight python %}
+import PyATEMMax
+
+print("Starting")
+switcher = PyATEMMax.ATEMMax()
+switcher.connect("192.168.1.111")
+switcher.waitForConnection()
+print("Connected!")
+switcher.setProgramInputVideoSource(0, "input2")
+print("PGM changed")
+switcher.disconnect()
+print("Finished")
+{% endhighlight %}
+
+```
+Starting
+Connected!
+PGM changed
+Finished
+```
+
+## Using the logging library
+
+Even when the `logging` module is imported and initialized, `PyATEMMax` will remain silent by default, as it's initially configured in `logging.CRITICAL` level.
+
+{% highlight python %}
+import PyATEMMax
+import logging
+
+logging.basicConfig( datefmt='%H:%M:%S',
+    level=logging.INFO,
+    format='%(asctime)s.%(msecs)03d %(levelname)-8s [%(name)s] %(message)s')
+
+log = logging.getLogger('PyATEMMax-demo')
+
+log.info("Starting")
+switcher = PyATEMMax.ATEMMax()
+switcher.connect("192.168.1.111")
+switcher.waitForConnection()
+log.info("Connected!")
+switcher.setProgramInputVideoSource(0, "input2")
+log.info("PGM changed")
+switcher.disconnect()
+log.info("Finished")
+{% endhighlight %}
+
+The output is still *clean*:
+```
+01:27:57.545 INFO     [PyATEMMax-demo] Starting
+01:28:23.110 INFO     [PyATEMMax-demo] Connected!
+01:28:23.110 INFO     [PyATEMMax-demo] PGM changed
+01:28:23.111 INFO     [PyATEMMax-demo] Finished
+```
+
+### Specifying ATEMMax log level
+
+You can call `setLogLevel()` before calling `connect()` to set the logging level for `ATEMMax`.
+
+The previous example, run with `logging.INFO`:
+{% highlight python %}
+switcher = PyATEMMax.ATEMMax()
+switcher.setLogLevel(logging.INFO)
+switcher.connect("192.168.1.111")
+{% endhighlight %}
+```
+01:33:30.301 INFO     [PyATEMMax-demo] Starting
+01:33:30.306 INFO     [ATEMConnectionManager] Starting connection with ATEM switcher on 192.168.1.111
+01:33:30.307 INFO     [ATEMConnectionManager] Connecting for the first time
+01:33:30.307 INFO     [ATEMConnectionManager] Sending HELLO packet
+01:33:30.312 INFO     [ATEMConnectionManager] Connected to switcher
+01:33:30.351 INFO     [PyATEMMax-demo] Connected!
+01:33:30.351 INFO     [PyATEMMax-demo] PGM changed
+01:33:30.353 INFO     [PyATEMMax-demo] Finished
+```
+
+The previous example, run with `logging.DEBUG`:
+{% highlight python %}
+switcher = PyATEMMax.ATEMMax()
+switcher.setLogLevel(logging.DEBUG)
+switcher.connect("192.168.1.111")
+{% endhighlight %}
+```
+01:33:51.342 INFO     [PyATEMMax-demo] Starting
+01:33:51.348 INFO     [ATEMConnectionManager] Starting connection with ATEM switcher on 192.168.1.111
+01:33:51.348 DEBUG    [ATEMConnectionManager] Event thread started
+01:33:51.348 DEBUG    [ATEMConnectionManager] Comms thread started
+01:33:51.348 DEBUG    [ATEMConnectionManager] Started waiting for connection  (infinite)
+01:33:51.349 INFO     [ATEMConnectionManager] Connecting for the first time
+01:33:51.349 INFO     [ATEMConnectionManager] Sending HELLO packet
+01:33:51.352 DEBUG    [ATEMConnectionManager] Basic UDP connection established, switcher is alive.
+01:33:51.354 DEBUG    [ATEMConnectionManager] Received HELLO. bookStatus 2 connectionCount 7 Extra info: [02 00 00 07 00 00 00 00]
+01:33:51.354 INFO     [ATEMConnectionManager] Connected to switcher
+01:33:51.354 DEBUG    [ATEMConnectionManager] Sending HELLO ACK
+01:33:51.366 DEBUG    [ATEMConnectionManager] Received new SessionId: 0x8007
+01:33:51.366 DEBUG    [ATEMConnectionManager] Received: [_ver] (Protocol Version)
+01:33:51.366 DEBUG    [ATEMConnectionManager] Received: [_pin] (Product Id)
+
+... lots and lots of "Received" lines in between ...
+
+01:33:51.410 DEBUG    [ATEMConnectionManager] Received: [InCm] (Not implemented: InCm)
+01:33:51.411 DEBUG    [ATEMConnectionManager] Initial payload received @rpID 0x6 sessionId 0x8007
+01:33:51.412 DEBUG    [ATEMConnectionManager] ATEM model: ATEM Television Studio HD
+01:33:51.412 DEBUG    [ATEMConnectionManager] ATEM protocol version: 2.27
+01:33:51.421 DEBUG    [ATEMConnectionManager] Finished waiting for initialization
+01:33:51.421 INFO     [PyATEMMax-demo] Connected!
+01:33:51.421 INFO     [PyATEMMax-demo] PGM changed
+01:33:51.421 DEBUG    [ATEMConnectionManager] Stopping connection
+01:33:51.422 DEBUG    [ATEMConnectionManager] Thread exit requested, closing...
+01:33:51.422 DEBUG    [ATEMConnectionManager] Comms thread FINISHED
+01:33:51.422 DEBUG    [ATEMConnectionManager] Thread exit requested, closing...
+01:33:51.423 DEBUG    [ATEMConnectionManager] Event thread FINISHED
+01:33:51.423 INFO     [PyATEMMax-demo] Finished
+01:33:51.429 DEBUG    [ATEMConnectionManager] Destroying object, cleaning up
+01:33:51.429 DEBUG    [ATEMConnectionManager] Finished cleanup
+```
+
+
+### Specifying ATEMSocket log level
+
+You can call `setSocketLogLevel()` before calling `connect()` to set the logging level for `ATEMSocket`. This will reveal the *internals* of the communication, which can be useful for debugging purposes.
+
+The previous example, run with `logging.DEBUG` for both `ATEMMax` and `ATEMSocket`:
+{% highlight python %}
+switcher = PyATEMMax.ATEMMax()
+switcher.setLogLevel(logging.DEBUG)
+switcher.setSocketLogLevel(logging.DEBUG)
+switcher.connect("192.168.1.111")
+{% endhighlight %}
+
+```
+01:37:35.586 INFO     [PyATEMMax-demo] Starting
+01:37:35.590 INFO     [ATEMConnectionManager] Starting connection with ATEM switcher on 192.168.1.111
+01:37:35.591 DEBUG    [ATEMConnectionManager] Event thread started
+01:37:35.591 DEBUG    [ATEMConnectionManager] Comms thread started
+01:37:35.591 DEBUG    [ATEMConnectionManager] Started waiting for connection  (infinite)
+01:37:35.591 INFO     [ATEMConnectionManager] Connecting for the first time
+01:37:35.591 INFO     [ATEMsocket] Connecting to 192.168.1.111:9910
+01:37:35.591 INFO     [ATEMConnectionManager] Sending HELLO packet
+01:37:35.591 DEBUG    [ATEMsocket] Sending buffer [10 14 00 00 00 00 00 00 00 3a 00 00 01 00 00 00 00 00 00 00]
+01:37:35.595 DEBUG    [ATEMsocket] Received 20 new bytes [10 14 00 00 00 00 00 00 00 2f 00 00 02 00 00 08 00 00 00 00] -  20 bytes available
+01:37:35.595 DEBUG    [ATEMConnectionManager] Basic UDP connection established, switcher is alive.
+01:37:35.596 DEBUG    [ATEMsocket] Buffer flushed. Data: [02 00 00 08 00 00 00 00]
+01:37:35.596 DEBUG    [ATEMConnectionManager] Received HELLO. bookStatus 2 connectionCount 8 Extra info: [02 00 00 08 00 00 00 00]
+01:37:35.596 INFO     [ATEMConnectionManager] Connected to switcher
+01:37:35.596 DEBUG    [ATEMConnectionManager] Sending HELLO ACK
+01:37:35.596 DEBUG    [ATEMsocket] Sending buffer [80 0c 00 00 00 00 00 00 00 03 00 00]
+01:37:35.604 DEBUG    [ATEMsocket] Received 12 new bytes [88 0c 80 08 00 00 00 00 00 00 00 01] -  12 bytes available
+01:37:35.604 DEBUG    [ATEMConnectionManager] Received new SessionId: 0x8008
+01:37:35.604 DEBUG    [ATEMsocket] Sending buffer [80 0c 80 08 00 01 00 00 00 00 00 00]
+01:37:35.608 DEBUG    [ATEMsocket] Received 1388 new bytes [0d 6c 80 08 00 00 00 00 00 00 00 02 00 0c ff ff 5f 76 65 72 00 02 00 1b 00 34 00 00 5f 70 69 6e 41 54 45 4d 20 54 65 6c 65 76 69 73 69 6f 6e 20 53 74 75 64 69 6f 20 48 44 00 00 00 00 10 00 00 4d 50 72 70 00 4f 00 00 08 00 00 00 00 20 01 00 5f 74 6f 70 01 18 02 01 04 02 01 04 01 00 00 01 04 00 00 00 01 01 01 01 00 00 00 00 00 0c c3 00 5f 4d 65 43 00 01 00 00 00 0c 00 00 5f 6d 70 6c 14 00 72 70 00 10 00 00 5f 4d 76 43 01 0a 01 01 00 01 01 01 00 0c 00 00 5f 41 4d 43 0a 00 01 00 00 b4 72 70 5f 56 4d 43 00 0e 00 00 00 10 00 00 00 00 00 80 00 00 00 00 01 00 00 00 00 00 00 40 00 00 00 00 02 57 00 00 00 00 00 80 00 00 00 00 03 50 72 70 00 00 00 40 00 00 00 00 04 10 00 00 00 00 00 10 00 00 00 00 05 00 00 00 00 00 00 20 00 00 00 00 06 5a 00 00 00 00 00 40 00 00 00 00 07 50 72 70 00 00 00 80 00 00 00 00 08 10 ff ff 00 00 01 00 00 00 00 00 09 00 00 00 00 00 02 00 00 00 00 00 0a 5d 00 00 00 00 04 40 00 00 00 00 0b 50 72 70 00 00 08 80 00 00 00 00 0c 10 00 00 00 00 14 40 00 00 00 00 0d 00 00 00 00 00 28 80 00 00 00 00 00 0c 00 00 5f 4d 41 43 64 10 00 00 00 20 72 70 5f 44 56 45 00 00 00 11 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 22 10 00 00 00 0c 72 70 50 6f 77 72 01 00 00 00 00 0c 49 6e 56 69 64 4d 0c 00 13 88 00 0c 00 00 56 33 73 6c 00 50 72 70 00 2c 00 00 49 6e 50 72 00 00 42 6c 61 63 6b 00 50 5a 43 53 00 00 00 00 00 0c 00 00 49 6e 42 6c 6b 00 01 00 01 00 01 00 01 10 13 01 00 2c 72 70 49 6e 50 72 00 01 48 79 70 65 72 64 65 63 6b 00 00 11 00 00 00 00 00 00 00 10 48 50 44 4b 00 70 00 02 00 02 00 00 13 01 00 2c 43 45 49 6e 50 72 00 02 42 61 63 6b 64 72 6f 70 20 49 6e 74 65 72 76 69 65 77 00 00 49 4e 54 57 00 c2 00 02 00 02 00 15 13 01 00 2c 00 00 49 6e 50 72 00 03 42 61 63 6b 64 72 6f 70 20 42 65 61 75 74 79 00 72 70 00 17 42 42 54 59 00 00 00 02 00 02 00 50 13 01 00 2c 00 00 49 6e 50 72 00 04 00 00 4d 50 72 70 00 19 00 00 00 00 00 00 00 10 00 72 4d 50 00 70 00 1a 00 00 00 02 00 02 00 10 13 01 00 2c 72 70 49 6e 50 72 00 05 43 61 6d 65 72 61 20 31 00 70 00 1c 00 00 00 00 00 00 00 10 43 41 4d 31 00 70 00 01 00 01 00 00 13 01 00 2c 53 53 49 6e 50 72 00 06 43 61 6d 65 72 61 20 32 20 2d 20 41 64 72 69 c3 a0 00 00 00 43 41 4d 32 00 00 00 01 00 01 00 20 13 01 00 2c 00 00 49 6e 50 72 00 07 43 61 6d 65 72 61 20 33 20 2d 20 4e 61 6e 64 65 7a 00 00 22 43 41 4d 33 00 00 00 01 00 01 00 50 13 01 00 2c 00 00 49 6e 50 72 00 08 43 61 6d 65 72 61 20 34 00 00 00 00 00 00 00 10 4c 6d 4d 50 43 41 4d 34 00 00 00 01 00 01 00 10 13 01 00 2c 72 70 49 6e 50 72 03 e8 43 6f 6c 6f 72 20 42 61 72 73 00 27 00 00 00 00 00 00 00 10 42 61 72 73 01 70 01 00 01 00 02 00 13 01 00 2c 00 56 49 6e 50 72 07 d1 43 6f 6c 6f 72 20 31 00 01 00 4d 50 72 70 00 2a 00 00 00 00 43 6f 6c 31 01 32 01 00 01 00 03 2b 03 01 00 2c 00 00 49 6e 50 72 07 d2 43 6f 6c 6f 72 20 32 00 00 00 00 10 00 00 4d 50 72 70 00 2d 43 6f 6c 32 01 00 01 00 01 00 03 50 03 01 00 2c 00 00 49 6e 50 72 0b c2 4d 65 64 69 61 20 50 6c 61 79 65 72 20 31 00 10 00 02 4d 50 4d 50 31 00 01 00 01 00 01 00 04 10 13 01 00 2c 72 70 49 6e 50 72 0b c3 4d 65 64 69 61 20 50 6c 61 79 65 72 20 31 20 4b 65 79 00 10 4d 50 31 4b 01 70 01 00 01 00 05 00 13 01 00 2c 49 50 49 6e 50 72 0b cc 4d 65 64 69 61 20 50 6c 61 79 65 72 20 32 00 c5 c8 04 04 00 4d 50 32 00 01 00 01 00 01 00 04 c5 13 01 00 2c 00 00 49 6e 50 72 0b cd 4d 65 64 69 61 20 50 6c 61 79 65 72 20 32 20 4b 65 79 00 ff 4d 50 32 4b 01 00 01 00 01 00 05 c5 13 01 00 2c c8 04 49 6e 50 72 0f aa 4b 65 79 20 31 20 4d 61 73 6b 00 3e 02 00 f8 c5 01 02 01 00 4d 31 4b 31 01 02 01 00 01 00 82 00 03 00 00 2c c8 04 49 6e 50 72 13 92 44 53 4b 20 31 20 4d 61 73 6b 00 c5 c8 04 01 00 00 00 34 28 44 4b 31 4d 01 00 01 00 01 00 82 3e 03 00 00 2c 01 02 49 6e 50 72 13 9c 44 53 4b 20 32 20 4d 61 73 6b 00 00 00 00 b4 99 17 02 0a 00 44 4b 32 4d 01 02 01 00 01 00 82 e2 03 00 00 2c c8 04 49 6e 50 72 27 1a 50 72 6f 67 72 61 6d 00 17 02 6c 3f 02 00 30 2d 15 02 8c 2a 50 67 6d 00 01 00 01 00 01 00 80 00 03 00 00 2c 00 00 49 6e 50 72 27 1b 50 72 65 76 69 65 77 00 66 58 44 49 55 53 43 46 00 00 20 46 50 76 77 00 01 20 01 00 01 00 80 5d 03 00 00 2c 00 00 49 6e 50 72 1b 59 43 6c 65 61 6e 20 46 65 65 64 20 31 00 00 01 00 00 00 01 00 43 66 64 31 01 00 01 00 01 00 80 08 03 00] -  1388 bytes available
+01:37:35.609 DEBUG    [ATEMsocket] Sending buffer [80 0c 80 08 00 02 00 00 00 00 00 00]
+01:37:35.609 DEBUG    [ATEMConnectionManager] Received: [_ver] (Protocol Version)
+
+...
+
+01:37:35.619 DEBUG    [ATEMsocket] Received 1408 new bytes [0d 80 80 08 00 00 00 00 00 00 00 03 00 2c ff ff 49 6e 50 72 1b 5a 43 6c 65 61 6e 20 46 65 65 64 20 32 00 4d 20 54 65 6c 65 76 43 66 64 32 01 20 01 00 01 00 80 6f 03 00 00 2c 00 00 49 6e 50 72 1f 41 41 75 78 69 6c 69 61 72 79 20 31 00 01 00 5f 74 6f 70 01 18 41 75 78 31 01 04 01 00 01 00 81 00 02 00 00 0c 01 01 4d 76 56 4d 00 07 c3 00 00 0c 65 43 4d 76 56 4d 01 06 00 00 00 0c 70 6c 4d 76 56 4d 02 07 00 00 00 0c 76 43 4d 76 56 4d 03 06 01 01 00 0c 00 00 4d 76 56 4d 04 04 01 00 00 0c 72 70 4d 76 56 4d 05 05 00 00 00 0c 00 00 4d 76 56 4d 06 06 00 00 00 0c 00 00 4d 76 56 4d 07 07 00 00 00 0c 00 00 4d 76 56 4d 08 08 00 00 00 0c 72 70 4d 76 56 4d 09 09 00 00 00 0c 00 00 4d 76 56 4d 0a 06 00 00 00 0c 00 00 4d 76 56 4d 0b 07 00 00 00 0c 00 00 4d 76 56 4d 0c 06 00 00 00 0c 72 70 4d 76 56 4d 0d 07 00 00 00 0c ff ff 4d 76 50 72 00 00 01 00 00 10 00 00 4d 76 49 6e 00 00 27 1b 00 5d 00 00 00 0c 04 40 56 75 4d 43 00 00 00 70 00 10 08 80 4d 76 49 6e 00 01 27 1a 01 00 14 40 00 0c 00 00 56 75 4d 43 00 01 00 80 00 10 00 00 4d 76 49 6e 00 02 00 05 01 10 00 00 00 0c 72 70 56 75 4d 43 00 02 00 11 00 10 12 13 4d 76 49 6e 00 03 00 06 01 1d 1e 1f 00 0c 00 00 56 75 4d 43 00 03 00 72 00 10 00 00 4d 76 49 6e 00 04 00 07 01 00 13 88 00 0c 00 00 56 75 4d 43 00 04 00 70 00 10 00 00 4d 76 49 6e 00 05 00 08 01 63 6b 00 00 0c 43 53 56 75 4d 43 00 05 00 00 00 10 42 6c 4d 76 49 6e 00 06 00 01 01 10 13 01 00 0c 72 70 56 75 4d 43 00 06 00 79 00 10 72 64 4d 76 49 6e 00 07 00 02 01 00 00 00 00 0c 48 50 56 75 4d 43 00 07 00 02 00 10 13 01 4d 76 49 6e 00 08 00 03 01 02 42 61 00 0c 64 72 56 75 4d 43 00 08 00 72 00 10 65 77 4d 76 49 6e 00 09 0b c2 01 02 00 02 00 0c 13 01 56 75 4d 43 00 09 00 72 00 0c 42 61 56 75 4d 6f 00 64 20 42 00 0c 75 74 50 72 67 49 00 17 00 02 00 10 00 00 50 72 76 49 00 50 00 01 00 2c 00 00 00 10 50 72 54 72 53 53 00 00 01 00 01 19 00 00 00 0c 00 00 54 72 50 72 00 00 00 70 00 10 00 00 54 72 50 73 00 00 19 01 00 00 72 70 00 0c 50 72 54 4d 78 50 00 19 72 61 00 0c 00 70 54 44 70 50 00 19 07 d1 00 1c 43 41 54 57 70 50 00 19 06 01 00 00 07 d1 13 88 00 00 13 88 13 88 00 00 43 61 00 1c 72 61 54 44 76 50 00 19 19 1c 0b c2 0b c3 01 01 01 f4 02 bc 00 00 00 01 00 01 00 1c 13 01 54 53 74 50 00 01 01 72 01 f4 02 bc 00 65 00 02 00 49 00 22 00 05 61 6e 00 0c 7a 00 4b 65 4f 6e 00 00 00 00 00 1c 00 01 4b 65 42 50 00 00 00 01 01 00 00 00 00 00 00 61 23 28 dc d8 c1 80 3e 80 00 14 00 00 4b 65 4c 6d 00 00 00 41 01 f4 02 bc 00 01 00 01 00 14 13 01 4b 65 43 6b 00 00 04 b0 03 e8 03 84 00 00 00 20 00 18 72 73 4b 65 50 74 00 00 06 00 13 88 13 88 00 00 13 88 13 88 00 00 00 44 13 01 4b 65 44 56 00 00 50 72 00 00 01 f4 00 00 01 f4 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 6f 00 32 00 32 00 00 00 32 64 2b 00 00 00 00 03 e8 01 68 19 00 00 00 00 00 00 00 00 00 19 00 00 00 00 10 00 00 4b 65 46 53 00 00 00 00 00 32 00 00 00 3c 01 00 4b 4b 46 50 00 00 01 00 00 00 03 e8 00 00 03 e8 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03 e8 01 68 19 01 00 00 00 00 00 00 00 00 00 3c 4d 65 4b 4b 46 50 00 00 02 79 00 00 03 e8 00 00 03 e8 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 6e 00 00 00 00 03 e8 01 68 19 20 00 00 00 00 00 00 00 00 00 10 c8 04 44 73 6b 42 00 00 00 00 00 00 01 00 00 1c 13 01 44 73 6b 50 00 00 19 00 01 f4 02 bc 00 00 23 28 dc d8 c1 80 3e 80 20 32 00 10 65 79 44 73 6b 53 00 00 00 00 19 00 01 00 00 10 13 01 44 73 6b 42 01 6e 00 00 00 00 4b 65 00 1c 31 20 44 73 6b 50 01 00 19 00 01 f4 02 bc 00 00 23 28 dc d8 c1 80 3e 80 01 00 00 10 03 00 44 73 6b 53 01 00 00 00 19 92 44 53 00 0c 31 20 46 74 62 50 00 19 c8 04 00 0c 00 00 46 74 62 53 00 00 00 19 00 10 01 00 43 6f 6c 56 00 2c 01 f4 03 e8 01 f4 00 10 44 53 43 6f 6c 56 01 61 01 0e 03 e8 01 f4 00 0c 17 02 41 75 78 53 00 4d 03 e8 00 20 01 00 4d 50 66 65 00 2c 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3f 00 00 00 20 15 02 4d 50 66 65 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 1b 00 00 00 20 69 65 4d 50 66 65 00 49 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 5d 00 00 00 20 00 00 4d 50 66 65 00 59 00 03 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 20 01 00 4d 50 66 65 00 08 00 04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00] -  1408 bytes available
+01:37:35.619 DEBUG    [ATEMsocket] Sending buffer [80 0c 80 08 00 03 00 00 00 00 00 00]
+01:37:35.619 DEBUG    [ATEMConnectionManager] Received: [InPr] (Input Properties)
+
+...
+
+01:37:35.629 DEBUG    [ATEMsocket] Received 1412 new bytes [0d 84 80 08 00 00 00 00 00 00 00 04 00 20 ff ff 4d 50 66 65 00 5a 00 05 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 76 00 00 00 20 01 20 4d 50 66 65 00 6f 00 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 72 00 00 00 20 01 00 4d 50 66 65 00 18 00 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 76 00 00 00 20 c3 00 4d 50 66 65 00 76 00 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0c 00 00 00 20 56 4d 4d 50 66 65 00 0c 00 09 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 05 00 00 00 20 00 00 4d 50 66 65 00 06 00 0a 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 76 00 00 00 20 00 00 4d 50 66 65 00 76 00 0b 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0c 00 00 00 20 56 4d 4d 50 66 65 00 0c 00 0c 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 07 00 00 00 20 ff ff 4d 50 66 65 00 00 00 0d 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0c 00 00 00 20 4d 43 4d 50 66 65 00 10 00 0e 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 75 00 00 00 20 00 80 4d 50 66 65 00 76 00 0f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 02 00 00 00 20 12 13 4d 50 66 65 00 03 00 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 10 00 00 00 20 49 6e 4d 50 66 65 00 00 00 11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 76 00 00 00 20 00 08 4d 50 66 65 00 0c 00 12 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06 00 00 00 20 13 01 4d 50 66 65 00 75 00 13 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0c 48 50 4d 50 43 45 00 01 00 00 00 0c 13 01 4d 50 43 45 01 01 01 00 00 1c 42 61 52 58 4d 53 00 00 4d 43 c0 a8 95 d0 00 01 00 77 00 00 01 6e 00 02 00 c2 00 1c 00 02 52 58 43 50 00 00 01 00 00 09 00 00 00 00 00 00 00 00 00 00 00 00 20 42 00 28 75 74 52 58 53 53 00 00 00 02 00 00 00 00 ff ff ff ff 00 00 00 00 00 2c 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 0c 00 00 52 58 43 43 00 00 00 72 00 1c 00 70 52 58 4d 53 00 01 50 73 00 00 00 00 00 00 00 70 00 00 00 72 00 02 00 50 00 1c 72 61 52 58 43 50 00 01 01 00 00 19 00 00 00 00 00 00 00 00 00 00 00 00 06 01 00 28 07 d1 52 58 53 53 00 01 13 88 00 00 00 00 ff ff ff ff 00 00 00 00 00 19 19 1c 00 00 00 00 00 00 00 00 00 00 00 00 00 0c 00 01 52 58 43 43 00 01 00 50 00 1c 01 72 52 58 4d 53 00 02 00 02 00 00 00 00 00 00 00 6e 00 00 00 00 00 02 00 6e 00 1c 00 00 52 58 43 50 00 02 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 dc d8 00 28 3e 80 52 58 53 53 00 02 4c 6d 00 00 00 00 ff ff ff ff 00 00 00 00 00 14 13 01 00 00 00 00 00 00 00 00 00 00 03 84 00 0c 00 20 52 58 43 43 00 02 00 74 00 1c 06 00 52 58 4d 53 00 03 13 88 00 00 00 00 00 00 00 01 00 00 00 56 00 02 00 72 00 1c 01 f4 52 58 43 50 00 03 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 32 00 28 00 32 52 58 53 53 00 03 03 e8 00 00 00 00 ff ff ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0c 00 00 52 58 43 43 00 03 00 50 00 0c 01 00 41 4d 50 50 00 00 03 e8 00 18 00 00 41 4d 49 50 00 01 00 00 00 01 00 02 00 00 80 00 00 00 00 00 00 18 03 e8 41 4d 49 50 00 02 00 00 00 02 00 02 00 3c 80 00 00 00 00 00 00 18 02 79 41 4d 49 50 00 03 00 e8 00 03 00 02 00 00 80 00 00 00 00 00 00 18 00 00 41 4d 49 50 00 04 00 00 00 04 00 02 00 68 80 00 00 00 00 00 00 18 00 00 41 4d 49 50 00 05 00 42 00 05 00 01 00 00 80 00 00 00 00 00 00 18 6b 50 41 4d 49 50 00 06 00 bc 00 06 00 01 00 d8 80 00 00 00 00 00 00 18 65 79 41 4d 49 50 00 07 00 00 00 07 00 01 00 10 80 00 00 00 00 00 00 18 00 00 41 4d 49 50 00 08 00 20 00 08 00 01 00 00 80 00 00 00 00 00 00 18 23 28 41 4d 49 50 05 15 02 00 00 00 02 00 00 73 00 00 00 00 00 00 00 18 44 53 41 4d 49 50 03 e9 02 50 00 01 00 20 01 0c 80 00 00 00 01 00 00 10 00 19 41 4d 4d 4f 80 00 00 00 00 2c 01 f4 00 28 01 f4 41 4d 54 6c 00 0a 00 01 00 00 02 00 00 03 00 00 04 00 00 05 00 00 06 00 00 07 00 00 08 00 05 15 00 03 e9 01 00 10 00 00 41 4d 48 50 40 27 40 27 28 7a 28 7a 00 0c 00 00 41 54 4d 50 00 20 15 02 00 10 66 65 54 4d 49 50 00 05 01 01 00 00 00 00 00 10 00 00 54 4d 49 50 00 06 01 01 00 20 69 65 00 10 66 65 54 4d 49 50 00 07 01 01 00 00 00 00 00 10 00 00 54 4d 49 50 00 08 01 01 00 20 00 00 00 10 66 65 4d 4d 4f 50 00 00 00 05 01 00 00 00 00 10 00 00 4d 4d 4f 50 01 00 00 06 01 20 01 00 00 10 66 65 4d 4d 4f 50 02 00 00 07 01 00 00 00 00 10 00 00 4d 4d 4f 50 03 00 00 08 01 ca 17 02] -  1412 bytes available
+01:37:35.629 DEBUG    [ATEMsocket] Sending buffer [80 0c 80 08 00 04 00 00 00 00 00 00]
+01:37:35.630 DEBUG    [ATEMConnectionManager] Received: [MPfe] (Media Player Still Files)
+
+...
+
+
+01:37:35.637 DEBUG    [ATEMsocket] Received 1420 new bytes [0d 8c 80 08 00 00 00 00 00 00 00 05 00 0c ff ff 4c 4b 53 54 00 00 00 05 00 10 00 00 5f 54 6c 43 00 01 00 00 08 00 00 00 00 14 00 00 54 6c 49 6e 00 08 02 01 00 00 00 00 00 00 00 00 00 54 00 00 54 6c 53 72 00 18 00 00 00 00 01 02 00 02 01 00 03 00 00 04 00 00 05 00 00 06 00 00 07 00 00 08 00 03 e8 00 07 d1 00 07 d2 00 0b c2 00 0b c3 00 0b cc 00 0b cd 00 0f aa 00 13 92 00 13 9c 00 27 1a 00 27 1b 00 1b 59 00 1b 5a 00 1f 41 00 56 4d 00 24 66 65 54 6c 46 63 00 08 00 01 00 00 02 00 00 03 00 00 04 00 00 05 00 00 06 00 00 07 00 00 08 00 66 65 00 0c 00 0a 4d 52 50 72 00 00 ff ff 00 0c 00 00 4d 52 63 53 00 76 00 00 00 10 00 00 4d 50 72 70 00 00 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 01 00 00 00 00 00 00 00 10 56 4d 4d 50 72 70 00 02 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 03 00 00 00 00 00 00 00 10 ff ff 4d 50 72 70 00 04 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 05 00 00 00 00 00 00 00 10 4d 43 4d 50 72 70 00 06 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 07 00 00 00 00 00 00 00 10 00 80 4d 50 72 70 00 08 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 09 00 00 00 00 00 00 00 10 12 13 4d 50 72 70 00 0a 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 0b 00 00 00 00 00 00 00 10 49 6e 4d 50 72 70 00 0c 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 0d 00 00 00 00 00 00 00 10 00 08 4d 50 72 70 00 0e 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 0f 00 00 00 00 00 00 00 10 13 01 4d 50 72 70 00 10 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 11 00 00 00 00 00 00 00 10 48 50 4d 50 72 70 00 12 00 00 00 00 00 00 00 10 43 45 4d 50 72 70 00 13 00 00 00 00 00 00 00 10 4d 43 4d 50 72 70 00 14 00 00 00 00 00 00 00 10 00 c2 4d 50 72 70 00 15 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 16 00 00 00 00 00 00 00 10 75 74 4d 50 72 70 00 17 00 00 00 00 00 00 00 10 ff ff 4d 50 72 70 00 18 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 19 00 00 00 00 00 00 00 10 00 72 4d 50 72 70 00 1a 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 1b 00 00 00 00 00 00 00 10 72 61 4d 50 72 70 00 1c 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 1d 00 00 00 00 00 00 00 10 53 53 4d 50 72 70 00 1e 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 1f 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 20 00 00 00 00 00 00 00 10 01 72 4d 50 72 70 00 21 00 00 00 00 00 00 00 10 00 6e 4d 50 72 70 00 22 00 00 00 00 00 00 00 10 43 50 4d 50 72 70 00 23 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 24 00 00 00 00 00 00 00 10 4c 6d 4d 50 72 70 00 25 00 00 00 00 00 00 00 10 13 01 4d 50 72 70 00 26 00 00 00 00 00 00 00 10 00 20 4d 50 72 70 00 27 00 00 00 00 00 00 00 10 4d 53 4d 50 72 70 00 28 00 00 00 00 00 00 00 10 00 56 4d 50 72 70 00 29 00 00 00 00 00 00 00 10 01 00 4d 50 72 70 00 2a 00 00 00 00 00 00 00 10 00 32 4d 50 72 70 00 2b 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 2c 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 2d 00 00 00 00 00 00 00 10 43 43 4d 50 72 70 00 2e 00 00 00 00 00 00 00 10 03 e8 4d 50 72 70 00 2f 00 00 00 00 00 00 00 10 00 02 4d 50 72 70 00 30 00 00 00 00 00 00 00 10 49 50 4d 50 72 70 00 31 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 32 00 00 00 00 00 00 00 10 00 02 4d 50 72 70 00 33 00 00 00 00 00 00 00 10 49 50 4d 50 72 70 00 34 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 35 00 00 00 00 00 00 00 10 00 01 4d 50 72 70 00 36 00 00 00 00 00 00 00 10 49 50 4d 50 72 70 00 37 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 38 00 00 00 00 00 00 00 10 00 01 4d 50 72 70 00 39 00 00 00 00 00 00 00 10 49 50 4d 50 72 70 00 3a 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 3b 00 00 00 00 00 00 00 10 02 00 4d 50 72 70 00 3c 00 00 00 00 00 00 00 10 49 50 4d 50 72 70 00 3d 00 00 00 00 00 00 00 10 01 00 4d 50 72 70 00 3e 00 00 00 00 00 00 00 10 01 f4 4d 50 72 70 00 3f 00 00 00 00 00 00 00 10 02 00 4d 50 72 70 00 40 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 41 00 00 00 00 00 00 00 10 48 50 4d 50 72 70 00 42 00 00 00 00 00 00 00 10 4d 50 4d 50 72 70 00 43 00 00 00 00 00 00 00 10 01 01 4d 50 72 70 00 44 00 00 00 00 00 00 00 10 01 01 4d 50 72 70 00 45 00 00 00 00 00 00 00 10 01 01 4d 50 72 70 00 46 00 00 00 00 00 00 00 10 01 01 4d 50 72 70 00 47 00 00 00 00 00 00 00 10 00 05 4d 50 72 70 00 48 00 00 00 00 00 00 00 10 00 06 4d 50 72 70 00 49 00 00 00 00 00 00 00 10 00 07 4d 50 72 70 00 4a 00 00 00 00 00 00 00 10 00 08 4d 50 72 70 00 4b 00 00 00 00 00 00] -  1420 bytes available
+01:37:35.637 DEBUG    [ATEMsocket] Sending buffer [80 0c 80 08 00 05 00 00 00 00 00 00]
+01:37:35.638 DEBUG    [ATEMConnectionManager] Received: [LKST] (Not implemented: LKST)
+
+...
+
+
+01:37:35.646 DEBUG    [ATEMsocket] Received 456 new bytes [09 c8 80 08 00 00 00 00 00 00 00 06 00 10 ff ff 4d 50 72 70 00 4c 00 00 00 00 00 00 00 10 6c 43 4d 50 72 70 00 4d 00 00 00 00 00 00 00 10 49 6e 4d 50 72 70 00 4e 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 4f 00 00 00 00 00 00 00 10 01 00 4d 50 72 70 00 50 00 00 00 00 00 00 00 10 00 08 4d 50 72 70 00 51 00 00 00 00 00 00 00 10 c3 00 4d 50 72 70 00 52 00 00 00 00 00 00 00 10 00 27 4d 50 72 70 00 53 00 00 00 00 00 00 00 10 56 4d 4d 50 72 70 00 54 00 00 00 00 00 00 00 10 02 00 4d 50 72 70 00 55 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 56 00 00 00 00 00 00 00 10 ff ff 4d 50 72 70 00 57 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 58 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 59 00 00 00 00 00 00 00 10 56 4d 4d 50 72 70 00 5a 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 5b 00 00 00 00 00 00 00 10 ff ff 4d 50 72 70 00 5c 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 5d 00 00 00 00 00 00 00 10 4d 43 4d 50 72 70 00 5e 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 5f 00 00 00 00 00 00 00 10 00 80 4d 50 72 70 00 60 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 61 00 00 00 00 00 00 00 10 12 13 4d 50 72 70 00 62 00 00 00 00 00 00 00 10 00 00 4d 50 72 70 00 63 00 00 00 00 00 00 00 0c 49 6e 43 43 73 74 00 00 13 88 00 0c 00 00 53 50 74 4d 00 50 72 70 00 0c 00 00 53 50 5a 53 00 00 96 00 00 0c 72 70 50 5a 43 53 00 00 00 00 00 0c 00 00 49 6e 43 6d 01 0f 00 00] -  456 bytes available
+01:37:35.646 DEBUG    [ATEMsocket] Sending buffer [80 0c 80 08 00 06 00 00 00 00 00 00]
+01:37:35.646 DEBUG    [ATEMConnectionManager] Received: [MPrp] (Macro Properties)
+
+...
+
+
+01:37:36.164 DEBUG    [ATEMsocket] Received 12 new bytes [88 0c 80 08 00 00 00 00 00 00 00 07] -  12 bytes available
+01:37:36.165 DEBUG    [ATEMConnectionManager] Initial payload received @rpID 0x7 sessionId 0x8008
+01:37:36.165 DEBUG    [ATEMsocket] Sending buffer [80 0c 80 08 00 07 00 00 00 00 00 00]
+01:37:36.165 DEBUG    [ATEMConnectionManager] ATEM model: ATEM Television Studio HD
+01:37:36.165 DEBUG    [ATEMConnectionManager] ATEM protocol version: 2.27
+01:37:36.166 DEBUG    [ATEMConnectionManager] Finished waiting for initialization
+01:37:36.166 INFO     [PyATEMMax-demo] Connected!
+01:37:36.166 DEBUG    [ATEMsocket] Sending buffer [08 18 80 08 00 00 00 00 00 00 00 01 00 0c 00 00 43 50 67 49 00 00 00 02]
+01:37:36.166 INFO     [PyATEMMax-demo] PGM changed
+01:37:36.166 DEBUG    [ATEMConnectionManager] Stopping connection
+01:37:36.167 DEBUG    [ATEMConnectionManager] Thread exit requested, closing...
+01:37:36.167 DEBUG    [ATEMConnectionManager] Comms thread FINISHED
+01:37:36.168 DEBUG    [ATEMConnectionManager] Thread exit requested, closing...
+01:37:36.168 DEBUG    [ATEMConnectionManager] Event thread FINISHED
+01:37:36.168 DEBUG    [ATEMsocket] Buffer flushed. Data: []
+01:37:36.168 INFO     [PyATEMMax-demo] Finished
+01:37:36.174 DEBUG    [ATEMConnectionManager] Destroying object, cleaning up
+01:37:36.174 DEBUG    [ATEMConnectionManager] Finished cleanup
+```

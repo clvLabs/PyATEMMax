@@ -1,0 +1,7 @@
+{
+    "python.linting.enabled": true,
+    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.logLevel": "Information",
+    "python.linting.pylintEnabled": true,
+    "python.analysis.diagnosticMode": "workspace"
+}

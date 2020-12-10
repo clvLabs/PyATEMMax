@@ -1,0 +1,8 @@
+---
+---
+
+// Fixed to work in GitHub Pages
+// @import "minima/skins/{{ site.minima.skin | default: 'classic' }}";
+@import "minima/skins/dark.scss";
+@import "minima/initialize";
+@import "custom.scss";

@@ -1,0 +1,104 @@
+# Site navigation
+# See _includes/navigation.html
+
+- title: Home
+  url:
+
+- title: About
+  url: about
+  l2:
+    - title: History
+      url: history
+
+    - title: License
+      url: license
+
+    - title: Roadmap
+      url: roadmap
+
+    - title: ATEM version
+      url: atem-version
+
+    - title: Changelog
+      url: changelog
+
+- title: Docs
+  url: docs
+  l2:
+    - title: Examples
+      url: examples
+      l3:
+        - title: tally
+          url: tally
+
+        - title: tally-str
+          url: tally-str
+
+        - title: ping
+          url: ping
+
+        - title: scan
+          url: scan
+
+        - title: scan-query
+          url: scan-query
+
+        - title: change-settings
+          url: change-settings
+
+        - title: change-settings-multi
+          url: change-settings-multi
+
+        - title: events
+          url: events
+
+        - title: scheduled-tasks
+          url: scheduled-tasks
+
+    - title: Methods
+      url: methods
+      l3:
+        - title: Init
+          url: init
+
+        - title: Connect
+          url: connect
+
+        - title: Set
+          url: set
+
+        - title: Exec
+          url: exec
+
+    - title: Data
+      url: data
+      l3:
+        - title: Protocol constants
+          url: protocol
+
+        - title: Switcher state
+          url: state
+
+    - title: Events
+      url: events
+
+    - title: Logging
+      url: logging
+
+- title: /dev
+  url: dev
+  l2:
+  - title: Modules
+    url: modules
+
+  - title: ATEMMax
+    url: atemmax
+
+  - title: Port Notes
+    url: port-notes
+
+  - title: Linting
+    url: linting
+
+  - title: Contributing
+    url: contributing

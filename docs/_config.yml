@@ -1,0 +1,23 @@
+title: PyATEMMax
+author:
+    name: Tony Aguilar
+    email: onixag@gmail.com
+description: >-
+  A Python library to monitor and control Blackmagic Design ATEM video switchers.
+baseurl: "/PyATEMMax"
+url: ""
+github_username:  clvLabs
+
+theme: minima
+minima:
+  skin: dark
+  social_links:
+    github: clvLabs
+
+sass:
+  sass_dir: _sass
+  style: compressed
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
