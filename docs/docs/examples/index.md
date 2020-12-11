@@ -23,7 +23,7 @@ You can get the code for all the examples at [the GitHub repo](https://github.co
 
 ## Running the examples
 
-Before running the examples you will need to copy the library code into the examples folder:
+If you haven't installed the library you will need to copy the library code into the examples folder before running the examples:
 
 {% highlight bash %}
 $ cp -r $(pwd)/PyATEMMax $(pwd)/examples/PyATEMMax
