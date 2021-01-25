@@ -183,7 +183,7 @@ class ATEMBuffer():
     def getFlag(self, offset: int, signed: bool, bits: int, bit: int) -> bool:
         """Get an individual bit in an integer"""
 
-        return True if (self.getInt(offset, signed, bits) | 1<<bit) else False
+        return True if (self.getInt(offset, signed, bits) & 1<<bit) else False
 
 
     def setFlag(self, offset: int, signed: bool, bits: int, bit: int) -> None:
