@@ -4,6 +4,9 @@ title: About - Changelog
 permalink: /about/changelog/
 ---
 
+## 1.0b3 (2021-02-23)
+* Fixed bug in `ATEMProtocol.getVideoSrc/getAudioSrc()` ([issue #3](https://github.com/clvLabs/PyATEMMax/issues/3))
+
 ## 1.0b2 (2021-01-25)
 * Fixed bug in `ATEMBuffer.getFlag()` ([issue #2](https://github.com/clvLabs/PyATEMMax/issues/2))
 
