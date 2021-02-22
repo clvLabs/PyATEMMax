@@ -4,10 +4,10 @@ title: About - Changelog
 permalink: /about/changelog/
 ---
 
-## 0.1b2 (2021-01-25)
+## 1.0b2 (2021-01-25)
 * Fixed bug in `ATEMBuffer.getFlag()` ([issue #2](https://github.com/clvLabs/PyATEMMax/issues/2))
 
-## 0.1b1 (2020-12-10)
+## 1.0b1 (2020-12-10)
 * First release.
 * Ported original code.
 * Moved protocol info to `ATEMProtocol`.
