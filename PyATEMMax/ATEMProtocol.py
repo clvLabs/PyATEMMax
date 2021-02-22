@@ -231,7 +231,7 @@ class ATEMProtocol:
         else: # int
             foundsrc = source
 
-        if not foundsrc:
+        if foundsrc is None:
             raise ATEMException(f"{source} ({type(source)}) is not a valid source")
 
         return foundsrc
@@ -252,7 +252,7 @@ class ATEMProtocol:
         else: # int
             foundsrc = source
 
-        if not foundsrc:
+        if foundsrc is None:
             raise ATEMException(f"{source} ({type(source)}) is not a valid source")
 
         return foundsrc
