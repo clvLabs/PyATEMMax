@@ -4,6 +4,9 @@ title: About - Changelog
 permalink: /about/changelog/
 ---
 
+## 1.0b4 (2021-05-16)
+* Fixed bug in `ATEMSetterMethods.setTransitionWipePattern()` ([issue #5](https://github.com/clvLabs/PyATEMMax/issues/5))
+
 ## 1.0b3 (2021-02-23)
 * Fixed bug in `ATEMProtocol.getVideoSrc/getAudioSrc()` ([issue #3](https://github.com/clvLabs/PyATEMMax/issues/3))
 
