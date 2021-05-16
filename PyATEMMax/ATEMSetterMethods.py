@@ -378,7 +378,7 @@ class ATEMSetterMethods():
         """
 
         mE_val = self.atem.mixEffects[mE].value
-        pattern_val = self.atem.patternStyles[pattern]
+        pattern_val = self.atem.patternStyles[pattern].value
 
         indexMatch:bool = self.switcher._outBuf.getU8(2) == mE_val
 
