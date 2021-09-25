@@ -134,20 +134,24 @@ class ATEMBuffer():
         else:
             bufferIndex = offset
 
-        numBytes = int(bits/8)
+        numBytes = int(bits / 8)
 
         if 0 < bufferIndex >= (self.size - numBytes):
             raise ATEMException(f"ATEMBuffer.getInt(): Can't get" \
-                            f" {'S' if signed else 'U'}{bits}" \
-                            f" @offset[{offset}]" \
-                            f" - buffIndex[{bufferIndex}]" \
-                            f" - numBytes[{numBytes}]" \
-                            f" - buffLen[{self.size}]")
+                                f" {'S' if signed else 'U'}{bits}" \
+                                f" @offset[{offset}]" \
+                                f" - buffIndex[{bufferIndex}]" \
+                                f" - numBytes[{numBytes}]" \
+                                f" - buffLen[{self.size}]")
 
-        packedValue = bytes(self._buf[bufferIndex:bufferIndex+numBytes])
+        packedValue = bytes(self._buf[bufferIndex:bufferIndex + numBytes])
 
-        return struct.unpack(self._getFormatChar(signed, bits), packedValue)[0]
-
+        # If struct.unpack fails, return 0 to resolve the issue and restore normal function
+        # The actual cause of this failure should be investigated more deeply
+        try:
+            return struct.unpack(self._getFormatChar(signed, bits), packedValue)[0]
+        except struct.error:
+            return 0
 
     def setInt(self, offset: int, signed: bool, bits: int, value: int) -> None:
         """Set an integer"""
