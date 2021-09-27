@@ -4,6 +4,9 @@ title: About - Changelog
 permalink: /about/changelog/
 ---
 
+## 1.0b5 (2021-09-28)
+* Protect against empty packed values ([issue #4](https://github.com/clvLabs/PyATEMMax/issues/4)) - Thank you [slampants](https://github.com/slampants) !
+
 ## 1.0b4 (2021-05-16)
 * Fixed bug in `ATEMSetterMethods.setTransitionWipePattern()` ([issue #5](https://github.com/clvLabs/PyATEMMax/issues/5))
 
