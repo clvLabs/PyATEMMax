@@ -87,7 +87,7 @@ class ATEMMax(ATEMConnectionManager, ATEMSwitcherState, ATEMSetterMethods):
         """Execute: Cut
 
         Args:
-            mE: see ATEMMultiViewers
+            mE: see ATEMMixEffects
         """
 
         if not self.connected:
@@ -105,7 +105,7 @@ class ATEMMax(ATEMConnectionManager, ATEMSwitcherState, ATEMSetterMethods):
         """Execute: AutoMixEffect
 
         Args:
-            mE: see ATEMMultiViewers
+            mE: see ATEMMixEffects
         """
 
         if not self.connected:
@@ -141,7 +141,7 @@ class ATEMMax(ATEMConnectionManager, ATEMSwitcherState, ATEMSetterMethods):
         """Execute: FadeToBlack
 
         Args:
-            mE: see ATEMMultiViewers
+            mE: see ATEMMixEffects
         """
 
         if not self.connected:

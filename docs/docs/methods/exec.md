@@ -16,7 +16,7 @@ execCutME(mE: ATEMConstant) -> None
 Execute: Cut
 
         Args:
-            mE: see ATEMMultiViewers
+            mE: see ATEMMixEffects
 
 
 ### execAutoME
@@ -26,7 +26,7 @@ execAutoME(mE: ATEMConstant) -> None
 Execute: AutoMixEffect
 
         Args:
-            mE: see ATEMMultiViewers
+            mE: see ATEMMixEffects
 
 
 ### execDownstreamKeyerAutoKeyer
@@ -46,7 +46,7 @@ execFadeToBlackME(mE: ATEMConstant) -> None
 Execute: FadeToBlack
 
         Args:
-            mE: see ATEMMultiViewers
+            mE: see ATEMMixEffects
 
 
 ### execMacroRecord
