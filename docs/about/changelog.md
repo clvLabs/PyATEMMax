@@ -4,6 +4,11 @@ title: About - Changelog
 permalink: /about/changelog/
 ---
 
+## 1.0b6 (2021-12-01)
+* Some documentation fixes
+* Fixed wrong byte index in _handleSSBP ([issue #9](https://github.com/clvLabs/PyATEMMax/issues/9)) - Thank you [kellyzdude](https://github.com/kellyzdude) !
+* Increased number of available aux channels to 32 - Thank you Jan Görgen ! (using ATEM Constellation 8K)
+
 ## 1.0b5 (2021-09-28)
 * Protect against empty packed values ([issue #4](https://github.com/clvLabs/PyATEMMax/issues/4)) - Thank you [slampants](https://github.com/slampants) !
 
