@@ -752,7 +752,7 @@ class ATEMCommandHandlers():
 
 
     def _handleSSBP(self) -> None:
-        box = self._getBufEnum(3, 8, self._p.boxes)
+        box = self._getBufEnum(0, 8, self._p.boxes)
         self._d.superSource.boxParameters[box].enabled = self._inBuf.getU8Flag(1, 0)
         self._d.superSource.boxParameters[box].inputSource = self._getBufVideoSource(2)
         self._d.superSource.boxParameters[box].position.x = self._inBuf.getFloat(4, True, 16, 100)
