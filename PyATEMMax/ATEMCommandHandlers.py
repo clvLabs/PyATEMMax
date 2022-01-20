@@ -752,17 +752,42 @@ class ATEMCommandHandlers():
 
 
     def _handleSSBP(self) -> None:
-        box = self._getBufEnum(0, 8, self._p.boxes)
-        self._d.superSource.boxParameters[box].enabled = self._inBuf.getU8Flag(1, 0)
-        self._d.superSource.boxParameters[box].inputSource = self._getBufVideoSource(2)
-        self._d.superSource.boxParameters[box].position.x = self._inBuf.getFloat(4, True, 16, 100)
-        self._d.superSource.boxParameters[box].position.y = self._inBuf.getFloat(6, True, 16, 100)
-        self._d.superSource.boxParameters[box].size = self._inBuf.getFloat(8, False, 16, 100)
-        self._d.superSource.boxParameters[box].cropped = self._inBuf.getU8Flag(10, 0)
-        self._d.superSource.boxParameters[box].crop.top = self._inBuf.getFloat(12, False, 16, 1000)
-        self._d.superSource.boxParameters[box].crop.bottom = self._inBuf.getFloat(14, False, 16, 1000)
-        self._d.superSource.boxParameters[box].crop.left = self._inBuf.getFloat(16, False, 16, 1000)
-        self._d.superSource.boxParameters[box].crop.right = self._inBuf.getFloat(18, False, 16, 1000)
+        """
+        Super Source Box Parameters.
+        Get 24 bytes.
+        | Byte # |  Description |    Value Range     |
+        ---------------------------------------------|
+        |   0    |    Uncnown   |         -          |
+        |   1    |     Box      |  0 - 3 (Box 1-4)   |
+        |   2    |    Enabled   |  Bit 0 (On / Off)  |
+        |   3    |    Uncnown   |         -          |
+        |  4-5   | Input Source |  ATEMVideoSources  |
+        |  6-7   | Position X   | from -4800 to 4800 |
+        |  8-9   | Position Y   | from -4800 to 4800 |
+        | 10-11  |     Size     |  from -70 to 1000  |
+        |   12   |   Cropped    |  from -70 to 1000  |
+        |   13   |    Uncnown   |         -          |
+        | 14-15  |  Crop Top    |  from 0 to 18000   |
+        | 16-17  | Crop Bottom  |  from 0 to 18000   |
+        | 18-19  |  Crop Left   |  from 0 to 18000   |
+        | 20-21  |  Crop Right  |  from 0 to 18000   |
+        | 20-21  |  Crop Right  |  from 0 to 18000   |
+        | 22-24  |    Uncnown   |         -          |
+        ---
+        @s-kol-gg
+        """
+        box = self._getBufEnum(1, 8, self._p.boxes)
+        current_box = self._d.superSource.boxParameters[box]
+        current_box.enabled = self._inBuf.getU8Flag(2, 0)
+        current_box.inputSource = self._getBufVideoSource(4)
+        current_box.position.x = self._inBuf.getFloat(6, True, 16, 100)
+        current_box.position.y = self._inBuf.getFloat(8, True, 16, 100)
+        current_box.size = self._inBuf.getFloat(10, False, 16, 1000)
+        current_box.cropped = self._inBuf.getU8Flag(12, 0)
+        current_box.crop.top = self._inBuf.getFloat(14, False, 16, 1000)
+        current_box.crop.bottom = self._inBuf.getFloat(16, False, 16, 1000)
+        current_box.crop.left = self._inBuf.getFloat(18, False, 16, 1000)
+        current_box.crop.right = self._inBuf.getFloat(20, False, 16, 1000)
 
 
     def _handleAMIP(self) -> None:
