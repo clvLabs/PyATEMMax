@@ -3762,6 +3762,8 @@ class ATEMSetterMethods():
         ---
         Take a look to ATEMCommandHandlers._handleSSBP.
         There are you can see bytes placement and available values.
+
+        `setInt.signed = True` used for valid work with negative numbers
         --- @s-kol-gg
         """
 
@@ -3771,7 +3773,7 @@ class ATEMSetterMethods():
         self.switcher._prepareCommandPacket("CSBP", 24, indexMatch)
         self.switcher._outBuf.setU8Flag(1, 2)
         self.switcher._outBuf.setU8(2, box_val)
-        self.switcher._outBuf.setU16(8, int(positionX * 100))
+        self.switcher._outBuf.setInt(8, True, 16, int(positionX*100))
         self.switcher._finishCommandPacket()
 
 
