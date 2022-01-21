@@ -757,22 +757,22 @@ class ATEMCommandHandlers():
         Get 24 bytes.
         | Byte # |  Description |    Value Range     |
         ---------------------------------------------|
-        |   0    |    Uncnown   |         -          |
+        |   0    |    Unknown   |         -          |
         |   1    |     Box      |  0 - 3 (Box 1-4)   |
         |   2    |    Enabled   |  Bit 0 (On / Off)  |
-        |   3    |    Uncnown   |         -          |
+        |   3    |    Unknown   |         -          |
         |  4-5   | Input Source |  ATEMVideoSources  |
         |  6-7   | Position X   | from -4800 to 4800 |
         |  8-9   | Position Y   | from -4800 to 4800 |
         | 10-11  |     Size     |  from -70 to 1000  |
         |   12   |   Cropped    |  from -70 to 1000  |
-        |   13   |    Uncnown   |         -          |
+        |   13   |    Unknown   |         -          |
         | 14-15  |  Crop Top    |  from 0 to 18000   |
         | 16-17  | Crop Bottom  |  from 0 to 18000   |
         | 18-19  |  Crop Left   |  from 0 to 18000   |
         | 20-21  |  Crop Right  |  from 0 to 18000   |
         | 20-21  |  Crop Right  |  from 0 to 18000   |
-        | 22-24  |    Uncnown   |         -          |
+        | 22-24  |    Unknown   |         -          |
         ---
         @s-kol-gg
         """
