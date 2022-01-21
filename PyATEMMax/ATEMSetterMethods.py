@@ -3716,11 +3716,6 @@ class ATEMSetterMethods():
         Args:
             box: see ATEMBoxes
             enabled (bool): On/Off
-
-        ---
-        Take a look to ATEMCommandHandlers._handleSSBP.
-        There are you can see bytes placement and available values.
-        --- @s-kol-gg
         """
 
         box_val = self.atem.boxes[box].value
@@ -3758,17 +3753,10 @@ class ATEMSetterMethods():
         Args:
             box: see ATEMBoxes
             positionX (float): -48.0-48.0
-
-        ---
-        Take a look to ATEMCommandHandlers._handleSSBP.
-        There are you can see bytes placement and available values.
-
-        `setInt.signed = True` used for valid work with negative numbers
-        --- @s-kol-gg
         """
 
         box_val = self.atem.boxes[box].value
-        indexMatch: bool = self.switcher._outBuf.getU8(2) == box_val
+        indexMatch:bool = self.switcher._outBuf.getU8(2) == box_val
 
         self.switcher._prepareCommandPacket("CSBP", 24, indexMatch)
         self.switcher._outBuf.setU8Flag(1, 2)
@@ -3787,13 +3775,10 @@ class ATEMSetterMethods():
         ---
         Take a look to ATEMCommandHandlers._handleSSBP.
         There are you can see bytes placement and available values.
-
-        `setInt.signed = True` used for valid work with negative numbers
-        --- @s-kol-gg
         """
 
         box_val = self.atem.boxes[box].value
-        indexMatch: bool = self.switcher._outBuf.getU8(2) == box_val
+        indexMatch:bool = self.switcher._outBuf.getU8(2) == box_val
 
         self.switcher._prepareCommandPacket("CSBP", 24, indexMatch)
         self.switcher._outBuf.setU8Flag(1, 3)
@@ -3808,15 +3793,10 @@ class ATEMSetterMethods():
         Args:
             box: see ATEMBoxes
             size (float): 0.07-1.0
-
-        ---
-        Take a look to ATEMCommandHandlers._handleSSBP.
-        There are you can see bytes placement and available values.
-        --- @s-kol-gg
         """
 
         box_val = self.atem.boxes[box].value
-        indexMatch: bool = self.switcher._outBuf.getU8(2) == box_val
+        indexMatch:bool = self.switcher._outBuf.getU8(2) == box_val
 
         self.switcher._prepareCommandPacket("CSBP", 24, indexMatch)
         self.switcher._outBuf.setU8Flag(1, 4)
@@ -3831,15 +3811,10 @@ class ATEMSetterMethods():
         Args:
             box: see ATEMBoxes
             cropped (bool): On/Off
-
-        ---
-        Take a look to ATEMCommandHandlers._handleSSBP.
-        There are you can see bytes placement and available values.
-        --- @s-kol-gg
         """
 
         box_val = self.atem.boxes[box].value
-        indexMatch: bool = self.switcher._outBuf.getU8(2) == box_val
+        indexMatch:bool = self.switcher._outBuf.getU8(2) == box_val
 
         self.switcher._prepareCommandPacket("CSBP", 24, indexMatch)
         self.switcher._outBuf.setU8Flag(1, 5)
@@ -3854,15 +3829,10 @@ class ATEMSetterMethods():
         Args:
             box: see ATEMBoxes
             cropTop (float): 0.0-18.0
-
-        ---
-        Take a look to ATEMCommandHandlers._handleSSBP.
-        There are you can see bytes placement and available values.
-        --- @s-kol-gg
         """
 
         box_val = self.atem.boxes[box].value
-        indexMatch: bool = self.switcher._outBuf.getU8(2) == box_val
+        indexMatch:bool = self.switcher._outBuf.getU8(2) == box_val
 
         self.switcher._prepareCommandPacket("CSBP", 24, indexMatch)
         self.switcher._outBuf.setU8Flag(1, 6)
@@ -3877,15 +3847,10 @@ class ATEMSetterMethods():
         Args:
             box: see ATEMBoxes
             cropBottom (float): 0.0-18.0
-
-        ---
-        Take a look to ATEMCommandHandlers._handleSSBP.
-        There are you can see bytes placement and available values.
-        --- @s-kol-gg
         """
 
         box_val = self.atem.boxes[box].value
-        indexMatch: bool = self.switcher._outBuf.getU8(2) == box_val
+        indexMatch:bool = self.switcher._outBuf.getU8(2) == box_val
 
         self.switcher._prepareCommandPacket("CSBP", 24, indexMatch)
         self.switcher._outBuf.setU8Flag(1, 7)
@@ -3900,15 +3865,10 @@ class ATEMSetterMethods():
         Args:
             box: see ATEMBoxes
             cropLeft (float): 0.0-32.0
-
-        ---
-        Take a look to ATEMCommandHandlers._handleSSBP.
-        There are you can see bytes placement and available values.
-        --- @s-kol-gg
         """
 
         box_val = self.atem.boxes[box].value
-        indexMatch: bool = self.switcher._outBuf.getU8(2) == box_val
+        indexMatch:bool = self.switcher._outBuf.getU8(2) == box_val
 
         self.switcher._prepareCommandPacket("CSBP", 24, indexMatch)
         self.switcher._outBuf.setU8Flag(0, 0)
@@ -3923,15 +3883,10 @@ class ATEMSetterMethods():
         Args:
             box: see ATEMBoxes
             cropRight (float): 0.0-32.0
-
-        ---
-        Take a look to ATEMCommandHandlers._handleSSBP.
-        There are you can see bytes placement and available values.
-        --- @s-kol-gg
         """
 
         box_val = self.atem.boxes[box].value
-        indexMatch: bool = self.switcher._outBuf.getU8(2) == box_val
+        indexMatch:bool = self.switcher._outBuf.getU8(2) == box_val
 
         self.switcher._prepareCommandPacket("CSBP", 24, indexMatch)
         self.switcher._outBuf.setU8Flag(0, 1)
