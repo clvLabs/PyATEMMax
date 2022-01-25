@@ -4,6 +4,9 @@ title: About - Changelog
 permalink: /about/changelog/
 ---
 
+## 1.0b7 (2022-01-25)
+* Fixed `Super Source Box` message byte order. [PR #13](https://github.com/clvLabs/PyATEMMax/pull/13) -  Thank you [Sergey](https://github.com/s-kol-gg) !
+
 ## 1.0b6 (2021-12-01)
 * Some documentation fixes
 * Fixed wrong byte index in _handleSSBP ([issue #9](https://github.com/clvLabs/PyATEMMax/issues/9)) - Thank you [kellyzdude](https://github.com/kellyzdude) !
