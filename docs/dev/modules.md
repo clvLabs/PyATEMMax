@@ -1,6 +1,6 @@
 ---
 layout: page
-title: /dev - Modues
+title: /dev - Modules
 permalink: /dev/modules
 ---
 
