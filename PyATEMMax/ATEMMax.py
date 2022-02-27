@@ -170,7 +170,7 @@ class ATEMMax(ATEMConnectionManager, ATEMSwitcherState, ATEMSetterMethods):
         macro_val = self.atem.macros[macro].value
 
         self.switcher._prepareCommandPacket("MSRc", 8)
-        self.switcher._outBuf.setU8(1, macro_val)
+        self.switcher._outBuf.setU16(0, macro_val)
         self.switcher._finishCommandPacket()
 
 
@@ -182,5 +182,5 @@ class ATEMMax(ATEMConnectionManager, ATEMSwitcherState, ATEMSetterMethods):
             return
 
         self.switcher._prepareCommandPacket("MSRc", 8)
-        self.switcher._outBuf.setU8(1, self.atem.macros.stop.value)
+        self.switcher._outBuf.setU16(0, self.atem.macros.stop.value)
         self.switcher._finishCommandPacket()
