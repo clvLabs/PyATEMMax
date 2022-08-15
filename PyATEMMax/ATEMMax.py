@@ -170,7 +170,7 @@ class ATEMMax(ATEMConnectionManager, ATEMSwitcherState, ATEMSetterMethods):
         macro_val = self.atem.macros[macro].value
 
         self.switcher._prepareCommandPacket("MSRc", 8)
-        self.switcher._outBuf.setU8(1, macro_val)
+        self.switcher._outBuf.setU16(0, macro_val)
         self.switcher._finishCommandPacket()
 
 
@@ -181,6 +181,8 @@ class ATEMMax(ATEMConnectionManager, ATEMSwitcherState, ATEMSetterMethods):
             self.log.warning("execMacroRecord() IGNORED - switcher disconnected")
             return
 
-        self.switcher._prepareCommandPacket("MSRc", 8)
-        self.switcher._outBuf.setU8(1, self.atem.macros.stop.value)
+        self.switcher._prepareCommandPacket("MAct", 4)
+        self.switcher._outBuf.setU8(0, 0xff)
+        self.switcher._outBuf.setU8(1, 0xff)
+        self.switcher._outBuf.setU8(2, 0x02)
         self.switcher._finishCommandPacket()
