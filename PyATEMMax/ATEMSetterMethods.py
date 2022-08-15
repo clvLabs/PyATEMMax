@@ -4089,3 +4089,76 @@ class ATEMSetterMethods():
         self.switcher._outBuf.setU8Flag(0, 2)
         self.switcher._outBuf.setU8(4, master)
         self.switcher._finishCommandPacket()
+
+
+    # ------------------------------------------------------------------------
+
+
+    def sendSetLockState(self, storeId: int, state: bool) -> None:
+        """Send Set Lock State
+
+        Args:
+            storeId: 0:Still / 1:Clip1 / 2:Clip2 / 3:MV_labels / 255:Macro
+            state:
+        """
+
+        print(f"[DBG] Sending Set Lock State !!!")
+        self.switcher._prepareCommandPacket("LOCK", 4)
+        self.switcher._outBuf.setU8(1, storeId)
+        self.switcher._outBuf.setU8(2, state)
+        self.switcher._finishCommandPacket()
+
+
+    def sendAcquireMediaLock(self, storeId: int, index: int) -> None:
+        """Acquire Media Lock
+
+        Args:
+            storeId: 0:Still / 1:Clip1 / 2:Clip2 / 3:MV_labels / 255:Macro
+            index:
+        """
+
+        print(f"[DBG] Acquiring Media Lock !!!")
+        self.switcher._prepareCommandPacket("PLCK", 8)
+        self.switcher._outBuf.setU8(1, storeId)
+        self.switcher._outBuf.setU8(3, index)
+        self.switcher._outBuf.setU8(4, 0xFD)    # command ?
+        self.switcher._outBuf.setU8(5, 0x01)    # command ?
+        self.switcher._finishCommandPacket()
+
+
+    def sendDataTransferRequest(self, transferId: int, storeId: int, index: int) -> None:
+        """Send Data Transfer Request
+
+        Args:
+            transferId:
+            storeId: 0:Still / 1:Clip1 / 2:Clip2 / 3:MV_labels / 255:Macro
+            index:
+        """
+
+        print(f"[DBG] Sending data transfer request !!!")
+        self.switcher._prepareCommandPacket("FTSU", 12)
+        self.switcher._outBuf.setU16(0, transferId)
+        self.switcher._outBuf.setU8(2, storeId)
+        self.switcher._outBuf.setU8(7, index)
+        self.switcher._outBuf.setU8(8, 0x03 if storeId == 0xff else 0)
+        self.switcher._finishCommandPacket()
+
+
+    def sendInitDownloadToSwitcherRequest(self, transferId: int, storeId: int, index: int, data_size: int) -> None:
+        """Init Download to switcher Request
+
+        Args:
+            transferId:
+            storeId: 0:Still / 1:Clip1 / 2:Clip2 / 3:MV_labels / 255:Macro
+            index:
+            data_size: size of data to be sent
+        """
+
+        print(f"[DBG] Sending init download request !!!")
+        self.switcher._prepareCommandPacket("FTSD", 16)
+        self.switcher._outBuf.setU16(0, transferId)
+        self.switcher._outBuf.setU8(2, storeId)
+        self.switcher._outBuf.setU8(7, index)
+        self.switcher._outBuf.setU32(8, data_size)
+        self.switcher._outBuf.setU8(13, 0x01)   # 0x01 == write, 0x02 == Clear
+        self.switcher._finishCommandPacket()

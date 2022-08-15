@@ -902,5 +902,87 @@ class ATEMCommandHandlers():
         self._d.lastStateChange.timeCode.frame = self._inBuf.getU8(3)
 
 
+    def _handleLKST(self) -> None:
+        storeId = self._inBuf.getU8(1)
+        state = self._inBuf.getU8Flag(2,0)
+        self._sw.log.debug(f"[DBG] _handleLKST storeId {storeId} state {state}")
+
+
+    def _handleLKOB(self) -> None:
+        storeId = self._inBuf.getU8(1)
+        self._sw.log.debug(f"[DBG] _handleLKOB Lock obtained for storeId {storeId}")
+
+
+    def _handleFTDE(self) -> None:
+        error_msg = self._inBuf.getString(0, len(self._inBuf))
+        self._sw.log.debug(f"[DBG] _handleFTDE error_msg: [{error_msg}]")
+
+
+    def _handleFTUA(self) -> None:
+        transferId = self._inBuf.getU16(0)
+        transferIndex = self._inBuf.getU8(3)
+        self._sw.log.debug(f"[DBG] _handleFTUA transferId: {transferId} transferIndex: {transferIndex}")
+
+
+    def _handleRXMS(self) -> None:
+        hyperDeckId = self._inBuf.getU16(0)  # Values from 0 to 4
+
+        ipAddress = self._inBuf.getU32(4)
+
+        inputId = self._inBuf.getU16(8)
+        autoRoll = self._inBuf.getU8Flag(10, 0)
+        autoRollFrameDelay = self._inBuf.getU16(12)  # Values from 0 to 60
+
+        connStatus = self._inBuf.getU8(14)
+
+        storageMediaCount = self._inBuf.getU16(16)
+        isRemoteEnabled = self._inBuf.getU8Flag(18, 0)
+
+
+    #     self._sw.log.debug(f"""[DBG] _handleRXMS
+    # - hyperDeckId: [{hyperDeckId}]
+    # - ipAddress: [{ipAddress}]
+    # - inputId: [{inputId}]
+    # - autoRoll: [{autoRoll}]
+    # - autoRollFrameDelay: [{autoRollFrameDelay}]
+    # - connStatus: [{connStatus}]
+    # - storageMediaCount: [{storageMediaCount}]
+    # - isRemoteEnabled: [{isRemoteEnabled}]
+    # """)
+    #     print(f"[DBG] {'-'*80}")
+
+
     def _handleNOTIMPLEMENTED(self) -> None:
         pass
+
+'''
+namespace LibAtem.Commands.Settings.HyperDeck
+{
+
+    [CommandName("RXMS", CommandDirection.ToClient, 20)]
+    public class HyperDeckSettingsGetCommand : SerializableCommandBase
+    {
+        [CommandId]
+        [Serialize(0), UInt16Range(0, 4)]
+        public uint Id { get; set; }
+
+        [Serialize(4), IpAddress]
+        public string NetworkAddress { get; set; }
+
+        [Serialize(8), Enum16]
+        public VideoSource Input { get; set; }
+        [Serialize(10), Bool]
+        public bool AutoRoll { get; set; }
+        [Serialize(12), UInt16Range(0, 60)]
+        public uint AutoRollFrameDelay { get; set; }
+
+        [Serialize(14), Enum8]
+        public HyperDeckConnectionStatus Status { get; set; }
+
+        [Serialize(16), UInt16]
+        public uint StorageMediaCount { get; set; }
+        [Serialize(18), Bool]
+        public bool IsRemoteEnabled { get; set; }
+    }
+}
+'''
