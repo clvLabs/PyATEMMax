@@ -319,7 +319,7 @@ switcher.programInput["mixEffect1"].videoSource
 * `dsk1..2`
 
 
-### swicher.atem.colorGenerators
+### switcher.atem.colorGenerators
 * `colorGenerator1..2`
 
 
