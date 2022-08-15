@@ -156,7 +156,7 @@ class ATEMMax(ATEMConnectionManager, ATEMSwitcherState, ATEMSetterMethods):
         self._finishCommandPacket()
 
 
-    def execMacroRecord(self, macro: Union[ATEMConstant, str, int]) -> None:
+    def execMacroRecord(self, macro: Union[ATEMConstant, str, int], name: str = '', description: str = '') -> None:
         """Execute: Macro Record (use macro.stop to stop recording)
 
         Args:
@@ -167,10 +167,25 @@ class ATEMMax(ATEMConnectionManager, ATEMSwitcherState, ATEMSetterMethods):
             self.log.warning("execMacroRecord() IGNORED - switcher disconnected")
             return
 
+        name_len = len(name)
+        description_len = len(description)
+        name_pos = 6
+        description_pos = name_pos + name_len
+
+        # 1 byte for name and description are already included
+        msg_len = 8 + (name_len-1) + (description_len-1)
+
+        # The total package length is always a multiple of 4
+        msg_len += 4-(msg_len%4)
+
         macro_val = self.atem.macros[macro].value
 
-        self.switcher._prepareCommandPacket("MSRc", 8)
+        self.switcher._prepareCommandPacket("MSRc", msg_len)
         self.switcher._outBuf.setU16(0, macro_val)
+        self.switcher._outBuf.setU16(2, len(name))
+        self.switcher._outBuf.setU16(4, len(description))
+        self.switcher._outBuf.setString(name_pos, len(name), name)
+        self.switcher._outBuf.setString(description_pos, len(description), description)
         self.switcher._finishCommandPacket()
 
 
