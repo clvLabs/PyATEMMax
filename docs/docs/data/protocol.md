@@ -111,7 +111,7 @@ While some others don't:
 ## Value lists
 
 
-### switcher.atem.videoSources
+### switcher.atem.videoSources (ATEMVideoSources)
 * `black`
 * `input1..40`
 * `colorBars`
@@ -130,7 +130,7 @@ While some others don't:
 * `input1Direct`
 
 
-### switcher.atem.audioSources
+### switcher.atem.audioSources (ATEMAudioSources)
 * `input1..20`
 * `xlr`
 * `aes_ebu`
@@ -139,13 +139,13 @@ While some others don't:
 * `mp1..4`
 
 
-### switcher.atem.downConverterModes
+### switcher.atem.downConverterModes (ATEMDownConverterModes)
 * `centerCut`
 * `letterBox`
 * `anamorphic`
 
 
-### switcher.atem.videoModeFormats
+### switcher.atem.videoModeFormats (ATEMVideoModeFormats)
 * `f525i59_94_ntsc`
 * `f625i_50_pal`
 * `f525i59_94_ntsc_16_9`
@@ -166,7 +166,7 @@ While some others don't:
 * `f2160p29_97`
 
 
-### switcher.atem.externalPortTypes
+### switcher.atem.externalPortTypes (ATEMExternalPortTypes)
 * `internal`
 * `sdi`
 * `hdmi`
@@ -175,7 +175,7 @@ While some others don't:
 * `sVideo`
 
 
-### switcher.atem.switcherPortTypes
+### switcher.atem.switcherPortTypes (ATEMSwitcherPortTypes)
 * `external`
 * `black`
 * `colorBars`
@@ -190,14 +190,14 @@ While some others don't:
 * `multiViewer`
 
 
-### switcher.atem.multiViewerLayouts
+### switcher.atem.multiViewerLayouts (ATEMMultiViewerLayouts)
 * `top`
 * `bottom`
 * `left`
 * `right`
 
 
-### switcher.atem.transitionStyles
+### switcher.atem.transitionStyles (ATEMTransitionStyles)
 * `mix`
 * `dip`
 * `wipe`
@@ -205,32 +205,32 @@ While some others don't:
 * `sting`
 
 
-### switcher.atem.keyerTypes
+### switcher.atem.keyerTypes (ATEMKeyerTypes)
 * `luma`
 * `chroma`
 * `pattern`
 * `dVE`
 
 
-### switcher.atem.borderBevels
+### switcher.atem.borderBevels (ATEMBorderBevels)
 * `no`
 * `inOut`
 * `in_`
 * `out`
 
 
-### switcher.atem.mediaPlayerSourceTypes
+### switcher.atem.mediaPlayerSourceTypes (ATEMMediaPlayerSourceTypes)
 * `still`
 * `clip`
 
 
-### switcher.atem.audioMixerInputTypes
+### switcher.atem.audioMixerInputTypes (ATEMAudioMixerInputTypes)
 * `externalVideo`
 * `mediaPlayer`
 * `externalAudio`
 
 
-### switcher.atem.audioMixerInputPlugTypes
+### switcher.atem.audioMixerInputPlugTypes (ATEMAudioMixerInputPlugTypes)
 * `internal`
 * `sdi`
 * `hdmi`
@@ -242,13 +242,13 @@ While some others don't:
 * `rca`
 
 
-### switcher.atem.audioMixerInputMixOptions
+### switcher.atem.audioMixerInputMixOptions (ATEMAudioMixerInputMixOptions)
 * `off`
 * `on`
 * `afv`
 
 
-### switcher.atem.dVETransitionStyles
+### switcher.atem.dVETransitionStyles (ATEMDVETransitionStyles)
 * `swooshTopLeft`
 * `swooshTop`
 * `swooshTopRight`
@@ -286,7 +286,7 @@ While some others don't:
 * `graphicLogoWipe`
 
 
-### switcher.atem.patternStyles
+### switcher.atem.patternStyles (ATEMPatternStyles)
 * `leftToRightBar`
 * `topToBottomBar`
 * `horizontalBarnDoor`
@@ -307,14 +307,14 @@ While some others don't:
 * `topRightDiagonal`
 
 
-### switcher.atem.camerControlSharpeningLevels
+### switcher.atem.camerControlSharpeningLevels (ATEMCamerControlSharpeningLevels)
 * `off`
 * `low`
 * `medium`
 * `high`
 
 
-### switcher.atem.macroActions
+### switcher.atem.macroActions (ATEMMacroActions)
 * `runMacro`
 * `stopMacro`
 * `stopRecording`
@@ -323,7 +323,7 @@ While some others don't:
 * `deleteMacro`
 
 
-### switcher.atem.keyFrames
+### switcher.atem.keyFrames (ATEMKeyFrames)
 * `a`
 * `b`
 * `full`
@@ -331,56 +331,56 @@ While some others don't:
 
 
 
-### switcher.atem.mixEffects
+### switcher.atem.mixEffects (ATEMMixEffects)
 * `mixEffect1..4`
 
 
-### switcher.atem.multiViewers
+### switcher.atem.multiViewers (ATEMMultiViewers)
 * `multiViewer1..2`
 
 
-### switcher.atem.windows
+### switcher.atem.windows (ATEMWindows)
 * `window1..10`
 
 
-### switcher.atem.keyers
+### switcher.atem.keyers (ATEMKeyers)
 * `keyer1..4`
 
 
-### switcher.atem.dSKs
+### switcher.atem.dSKs (ATEMDSKs)
 * `dsk1..2`
 
 
-### switcher.atem.colorGenerators
+### switcher.atem.colorGenerators (ATEMColorGenerators)
 * `colorGenerator1..2`
 
 
-### switcher.atem.auxChannels
+### switcher.atem.auxChannels (ATEMAuxChannels)
 * `auxChannel1..6`
 
 
-### switcher.atem.cameras
+### switcher.atem.cameras (ATEMCameras)
 * `camera1..20`
 
 
-### switcher.atem.mediaPlayers
+### switcher.atem.mediaPlayers (ATEMMediaPlayers)
 * `mediaPlayer1..4`
 
 
-### switcher.atem.clipBanks
+### switcher.atem.clipBanks (ATEMClipBanks)
 * `clipBank1..2`
 
 
-### switcher.atem.stillBanks
+### switcher.atem.stillBanks (ATEMStillBanks)
 * `stillBank1..32`
 
 
-### switcher.atem.macros
+### switcher.atem.macros (ATEMMacros)
 * `stop`
 * `macro1..100`
 
 
-### switcher.atem.boxes
+### switcher.atem.boxes (ATEMBoxes)
 * `box1..4`
 
 
