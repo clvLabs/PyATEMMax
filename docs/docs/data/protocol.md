@@ -76,6 +76,38 @@ switcher.programInput[0].videoSource
 switcher.programInput["mixEffect1"].videoSource
 {% endhighlight %}
 
+### Note about enumerated values
+
+In the following value lists there are some enumerated values, like:
+`switcher.atem.videoSources.input1` ... `switcher.atem.videoSources.input40`
+
+Please keep in mind that the associated numeric value does not need to be the same as the number in the value name.
+
+As an example, you can see some values match:
+* `switcher.atem.videoSources.input1` == `1`
+* `switcher.atem.cameras.camera1` == `1`
+
+While some others don't:
+* `switcher.atem.videoSources.color1` == `2001`
+* `switcher.atem.videoSources.mediaPlayer1` == `3010`
+* `switcher.atem.videoSources.key1Mask` == `4010`
+* `switcher.atem.videoSources.dsk1Mask` == `5010`
+* `switcher.atem.videoSources.cleanFeed1` == `7001`
+* `switcher.atem.videoSources.auxilary1` == `8001`
+* `switcher.atem.mixEffects.mixEffect1` == `0`
+* `switcher.atem.multiViewers.multiViewer1` == `0`
+* `switcher.atem.windows.window1` == `0`
+* `switcher.atem.keyers.keyer1` == `0`
+* `switcher.atem.dsks.dsk1` == `0`
+* `switcher.atem.colorGenerators.colorGenerator1` == `0`
+* `switcher.atem.auxChannels.auxChannel1` == `0`
+* `switcher.atem.mediaPlayers.mediaPlayer1` == `0`
+* `switcher.atem.clipBanks.clipBank1` == `0`
+* `switcher.atem.stillBanks.stillBank1` == `0`
+* `switcher.atem.macros.macro1` == `0`
+* `switcher.atem.boxes.box1` == `0`
+
+
 ## Value lists
 
 
