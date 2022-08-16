@@ -155,7 +155,7 @@ switcher.programInput["mixEffect1"].videoSource
 * `mEOutput`
 * `auxiliary`
 * `mask`
-* `multiviewer`
+* `multiViewer`
 
 
 ### switcher.atem.multiViewerLayouts
