@@ -588,7 +588,7 @@ class ATEMCommandHandlers():
                 self._d.cameraControl[camera].zoom.normalized = self._inBuf.getFloat(16, True, 16, 10)
             elif feature == FEAT_LENS_ZOOM:
                 value = self._inBuf.getS16(16)
-                self._d.cameraControl[camera].zoom.speed = mapValue(value, -2048, 2048, 0.0, 1.0)
+                self._d.cameraControl[camera].zoom.speed = mapValue(value, -2048, 2048, -1.0, 1.0)
             else:
                 self._sw.log.warn(f"UNKNOWN lens feature ({feature})")
 

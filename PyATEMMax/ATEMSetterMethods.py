@@ -2732,7 +2732,7 @@ class ATEMSetterMethods():
 
         Args:
             camera: see ATEMCameras
-            zoomSpeed (float): 0.0-1.0
+            zoomSpeed (float): -1.0-1.0
         """
 
         camera_val = self.atem.cameras[camera].value
@@ -2744,7 +2744,7 @@ class ATEMSetterMethods():
         self.switcher._outBuf.setU8(4, 0x80)
         self.switcher._outBuf.setU8(9, 0x01)
 
-        value = int(mapValue(zoomSpeed, 0.0, 1.0, -2048, 2048))
+        value = int(mapValue(zoomSpeed, -1.0, 1.0, -2048, 2048))
         self.switcher._outBuf.setS16(16, value)
 
         self.switcher._finishCommandPacket()
