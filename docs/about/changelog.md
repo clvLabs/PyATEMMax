@@ -4,6 +4,11 @@ title: About - Changelog
 permalink: /about/changelog/
 ---
 
+## 1.0b8 (2022-08-17)
+* Fixed [issue #14](https://github.com/clvLabs/PyATEMMax/issues/14): execMacroStopRecording not working.
+* Fixed the range of the `zoomSpeed` parameter in `setCameraControlZoomSpeed()` ([issue #18](https://github.com/clvLabs/PyATEMMax/issues/18)).
+* Added new (optional) parameters to `execMacroRecord()` so macro name and description can be specified ([issue #15](https://github.com/clvLabs/PyATEMMax/issues/15)).
+
 ## 1.0b7 (2022-01-25)
 * Fixed `Super Source Box` message byte order. [PR #13](https://github.com/clvLabs/PyATEMMax/pull/13) -  Thank you [Sergey](https://github.com/s-kol-gg) !
 
