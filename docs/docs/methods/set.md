@@ -457,7 +457,7 @@ Set Camera Control Zoom
 
         Args:
             camera: see ATEMCameras
-            zoomSpeed (float): 0.0-1.0
+            zoomSpeed (float): -1.0-1.0
 
 ### setClipPlayerAtBeginning
 {% highlight python %}
