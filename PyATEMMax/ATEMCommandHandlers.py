@@ -577,7 +577,7 @@ class ATEMCommandHandlers():
             FEAT_LENS_FOCUS = 0
             # FEAT_LENS_AUTOFOCUSED = 1    # Documented, but not implemented
             FEAT_LENS_IRIS = 3
-            FEAT_LENS_ZOOMNORMALIZED = 8 # Not docummented
+            FEAT_LENS_ZOOMNORMALIZED = 8 # Not documented
             FEAT_LENS_ZOOM = 9
 
             if feature == FEAT_LENS_IRIS:
@@ -596,7 +596,7 @@ class ATEMCommandHandlers():
             FEAT_CAMERA_GAIN = 1
             FEAT_CAMERA_WHITEBALANCE = 2
             FEAT_CAMERA_SHUTTER = 5
-            FEAT_CAMERA_DETAIL = 8 # Docummented in LibAtem/LibAtem
+            FEAT_CAMERA_DETAIL = 8 # Documented in LibAtem/LibAtem
 
             if feature == FEAT_CAMERA_GAIN:
                 self._d.cameraControl[camera].gain.value = self._inBuf.getS16(16)
@@ -610,7 +610,7 @@ class ATEMCommandHandlers():
                 self._sw.log.warn(f"UNKNOWN camera feature ({feature})")
 
         elif adjustmentDomain == DOM_COLORBARS:
-            FEAT_COLORBARS = 4 # Not docummented
+            FEAT_COLORBARS = 4 # Not documented
 
             if feature == FEAT_COLORBARS:
                 self._d.cameraControl[camera].colorbars = self._inBuf.getS16(16)
