@@ -168,6 +168,8 @@ class ATEMProtocol:
         'LOCK': 'Set Lock State',
         'FTDE': 'Data Transfer Error',
         'FTUA': 'Data Transfer Ack',
+        'FTSD': 'Data Transfer to Switcher',
+        'FTSU': 'Data Transfer Request',
         'RXMS': 'HyperDeck Settings Get',
 
         # These commands are not really unknown,
@@ -234,8 +236,6 @@ class ATEMProtocol:
         'FTDa': 'Not implemented: Data Transfer Data',
         'FTDC': 'Not implemented: Data Transfer Completed',
         'FTFD': 'Not implemented: Data File Description',
-        'FTSD': 'Not implemented: Data Transfer to Switcher',
-        'FTSU': 'Not implemented: Data Transfer Request',
         'InCm': 'Not implemented: Initialization Completed',
         'MAct': 'Not implemented: Macro Action',
         'MMOP': 'Not implemented: MMOP',
