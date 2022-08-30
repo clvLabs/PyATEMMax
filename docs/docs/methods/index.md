@@ -22,11 +22,11 @@ In this case, the `mE` parameter should be a value contained in `ATEMMixEffects`
 switcher.setProgramInputVideoSource(switcher.atem.mixEffects.mixEffect1, switcher.atem.videoSources.mediaPlayer1)
 {% endhighlight %}
 
-See the [Data - Protocol - ATEMConstant](../data/protocol#atemconstant) section for more info.
+See the [Data - Protocol - ATEMConstant](../data/protocol.md#atemconstant) section for more info.
 
 ## In this section
 
-* [Init](init): Initialization
-* [Connect](connect): Connection management
-* [Set](set): Change switcher settings
-* [Exec](exec): Execute switcher actions
+* [Init](init.md): Initialization
+* [Connect](connect.md): Connection management
+* [Set](set.md): Change switcher settings
+* [Exec](exec.md): Execute switcher actions

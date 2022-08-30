@@ -5,7 +5,7 @@ permalink: /dev/port-notes/
 ---
 
 
-The original library code can be found at [SKAARHOJ-Open-Engineering GitHub repo](https://github.com/kasperskaarhoj/SKAARHOJ-Open-Engineering).
+The original library code can be found at [SKAARHOJ-Open-Engineering GitHub repo][skaarhoj-repo].
 
 In the original version, features are split in several libraries (`ATEMbase`, `ATEMext`, `ATEMmax`, `ATEMmin`, `ATEMstd`, `ATEMuni`) as program space is a valuable resource when compiling for Arduino or other MCU platforms.
 
@@ -30,3 +30,5 @@ Some details:
 * Buffer sizes have been increased, as a PC has a lot more of memory and can handle bigger input buffers.
 * Some code related to buffer handling has been adapted.
 * In certain situations the code has been slightly "pythonized" (sometimes keeping the original code structure made things uglier, sometimes it was too easy and cheap to add nice features :).
+
+[skaarhoj-repo]: https://github.com/kasperskaarhoj/SKAARHOJ-Open-Engineering

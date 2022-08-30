@@ -45,7 +45,7 @@ $ python3 change-settings-multi.py -v 0.0 -m 1 -p 1 -w 2
 
 ## Code walkthrough
 
-Start with the usual initial steps (explained in [Examples](../))
+Start with the usual initial steps (explained in [Examples](./index.md))
 
 {% highlight python %}
 #!/usr/bin/env python3

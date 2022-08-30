@@ -27,17 +27,17 @@ switcher.setPreviewInputVideoSource(0, 5)  # Set PVW on input 5 for m/e 0
 ```
 pip install PyATEMMax
 ```
-[PyATEMMax on the Python Package Index](https://pypi.org/project/PyATEMMax/)
+[PyATEMMax on the Python Package Index][pyatemmax-pip]
 
 ## Features
 
 * Built using [Python 3][python-site], runs on Windows/Mac/Linux.
     * Tested on Linux/Windows PCs and [Raspberry Pi][raspberry-site].
-* **Huge** set of switcher settings available (see [list of 'set' methods](docs/methods/set)).
+* **Huge** set of switcher settings available (see [list of 'set' methods](docs/methods/set.md)).
 * Automatic reconnection to the switcher in case of connection loss.
 * Switcher settings automatically updated, there's no need to call `update()` methods.
 * Able to simultaneously connect to multiple switchers.
-* Open source, you can see the code and customize it to fit your needs (see [License](about/license))
+* Open source, you can see the code and customize it to fit your needs (see [License](about/license.md))
 * No dependencies, the only thing you need installed on your system is [Python 3][python-site].
 * Meant to be user friendly, so you can start playing with your switchers in no time:
     * *Intellisense friendly*: get yourself a Python plugin for your editor and you're ready to go!.
@@ -59,7 +59,7 @@ These are just a few possible projects that could be easily built with `PyATEMMa
     * Change `PVW` input to certain cameras depending on their sound levels.
 * Automation
     * Complex macros, depending on many factors (even external ones).
-    * Manage many switches from a central point for coordination. If you work on a site with a lot of ATEM switchers you may find this very useful! (see the [examples](docs/examples))
+    * Manage many switches from a central point for coordination. If you work on a site with a lot of ATEM switchers you may find this very useful! (see the [examples](docs/examples/index.md))
 
 ## Talk is cheap. Show me the code.
 You can find the code at [github.com/clvLabs/PyATEMMax][pyatemmax-repo].
@@ -83,3 +83,4 @@ You can find the code at [github.com/clvLabs/PyATEMMax][pyatemmax-repo].
 [python-site]: https://www.python.org/
 [pep-484]: https://www.python.org/dev/peps/pep-0484/
 [pyatemmax-repo]: https://github.com/clvLabs/PyATEMMax
+[pyatemmax-pip]: https://pypi.org/project/PyATEMMax/

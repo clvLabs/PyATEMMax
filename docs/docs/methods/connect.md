@@ -28,7 +28,7 @@ You can choose the way to wait for connection:
 You can register a handler for the `connect` event and it will be called every time the connection is established (also after connection losses).
 This is the recommended method for GUI programs (when you don't control the main loop).
 
-See the [Events](../../events) section.
+See the [Events](../events/index.md) section.
 
 ### Wait: using waitForConnection()
 
@@ -79,7 +79,7 @@ switcher.connect("192.168.1.111")
 
 After calling `connect()` you can manually check `switcher.connected` to watch connection status.
 
-See the connection state variables in the [Data - Switcher State](../../data/state) section.
+See the connection state variables in the [Data - Switcher State](../data/state.md) section.
 
 ## Pinging a switcher
 

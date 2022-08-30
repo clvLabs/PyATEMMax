@@ -44,7 +44,7 @@ $ python3 change-settings.py 192.168.1.111 -v 1.7 -p 3 -w 2
 
 ## Code walkthrough
 
-Start with the usual initial steps (explained in [Examples](../))
+Start with the usual initial steps (explained in [Examples](./index.md))
 
 {% highlight python %}
 #!/usr/bin/env python3

@@ -7,19 +7,19 @@ sidebar: tree.toc
 
 A few code examples are provided with the library code. Here you'll find a step-by-step explanation of each one.
 
-You can get the code for all the examples at [the GitHub repo](https://github.com/clvLabs/PyATEMMax/tree/master/examples).
+You can get the code for all the examples at [the GitHub repo][pyatemmax-examples-repo].
 
 ## In this section
 
-* [tally](tally): Quick tally indicator.
-* [tally-str](tally-str): A different (maybe easier) way to access tally information.
-* [ping](ping): Check if your switcher is alive (ping-like).
-* [scan](scan): Scan a network for ATEM switchers.
-* [scan-query](scan-query): Scan a network for ATEM switchers and show some settings.
-* [change-settings](change-settings): Change some settings on a switcher.
-* [change-settings-multi](change-settings-multi): Change some settings on multiple switchers at once.
-* [events](events): Using `PyATEMMax`'s events.
-* [scheduled-tasks](scheduled-tasks): A more elaborate example, including scheduled tasks.
+* [tally](tally.md): Quick tally indicator.
+* [tally-str](tally-str.md): A different (maybe easier) way to access tally information.
+* [ping](ping.md): Check if your switcher is alive (ping-like).
+* [scan](scan.md): Scan a network for ATEM switchers.
+* [scan-query](scan-query.md): Scan a network for ATEM switchers and show some settings.
+* [change-settings](change-settings.md): Change some settings on a switcher.
+* [change-settings-multi](change-settings-multi.md): Change some settings on multiple switchers at once.
+* [events](events.md): Using `PyATEMMax`'s events.
+* [scheduled-tasks](scheduled-tasks.md): A more elaborate example, including scheduled tasks.
 
 ## Running the examples
 
@@ -148,3 +148,5 @@ While the *full* examples could even serve as a general CLI utilities, the strip
 [pep-484]: https://www.python.org/dev/peps/pep-0484/
 
 [ln-manpage]: https://man7.org/linux/man-pages/man1/ln.1.html
+
+[pyatemmax-examples-repo]: https://github.com/clvLabs/PyATEMMax/tree/master/examples

@@ -6,7 +6,7 @@ permalink: /docs/events/
 
 In order to make it easier to manage the connection with the switcher, you can register event handlers for a few events.
 
-Check the [events example](../examples/events) to see events in action.
+Check the [events example](../examples/events.md) to see events in action.
 
 ## Available events
 

@@ -8,6 +8,6 @@ This section covers both constant data for the ATEM protocol and switcher state 
 
 ## In this section
 
-* [Protocol](protocol): ATEM protocol constants
-* [State](state): Switcher state variables
+* [Protocol](protocol.md): ATEM protocol constants
+* [State](state.md): Switcher state variables
 
