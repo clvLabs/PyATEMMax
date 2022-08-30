@@ -77,7 +77,7 @@ To do this, it reads the provided `programInput.videoSource` for the selected `m
 
 {% highlight python %}
 # Show initial tally state
-last_src = switcher.programInput[args.mixeffect].videoSource
+last_src = switcher.programInput[args.mixeffect].videoSource.value
 print(f"[{time.ctime()}] Connected, tally {args.source} is [{'ON' if last_src == args.source else 'OFF' }]")
 {% endhighlight %}
 
@@ -88,7 +88,7 @@ From this point on, the script just keeps on asking for the same data and compar
 print(f"[{time.ctime()}] Watching for tally changes on videoSource {args.source}")
 while True:
     # Watch for tally changes
-    src = switcher.programInput[args.mixeffect].videoSource
+    src = switcher.programInput[args.mixeffect].videoSource.value
     if src != last_src:
         # print(f"[{time.ctime()}] programInput.videoSource changed!")
         if src == args.source:
@@ -114,11 +114,11 @@ switcher = PyATEMMax.ATEMMax()
 switcher.connect("192.168.1.111")
 switcher.waitForConnection()
 
-last_src = switcher.programInput[0].videoSource
+last_src = switcher.programInput[0].videoSource.value
 print(f"Connected, tally {SOURCE} is [{'ON' if last_src == SOURCE else 'OFF' }]")
 
 while True:
-    src = switcher.programInput[0].videoSource
+    src = switcher.programInput[0].videoSource.value
     if src != last_src:
         if src == SOURCE:
             print(f"Tally {SOURCE} [ON]")
