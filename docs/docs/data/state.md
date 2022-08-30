@@ -38,7 +38,7 @@ switcher.audioMixer.input[1301].volume
 switcher.audioMixer.input["mic1"].volume
 {% endhighlight %}
 
-See the [Data - Protocol - ATEMConstant](../protocol#atemconstant) section for more info.
+See the [Data - Protocol - ATEMConstant](../protocol.md#atemconstant) section for more info.
 
 ### Mapped values
 
