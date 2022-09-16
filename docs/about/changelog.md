@@ -4,6 +4,9 @@ title: About - Changelog
 permalink: /about/changelog/
 ---
 
+## 1.0b9 (2022-09-16)
+* Fixed [issue #12](https://github.com/clvLabs/PyATEMMax/issues/12): Unreliable Connection.
+
 ## 1.0b8 (2022-08-17)
 * Fixed [issue #14](https://github.com/clvLabs/PyATEMMax/issues/14): execMacroStopRecording not working.
 * Fixed the range of the `zoomSpeed` parameter in `setCameraControlZoomSpeed()` ([issue #18](https://github.com/clvLabs/PyATEMMax/issues/18)).
