@@ -114,7 +114,7 @@ switcher.connect("192.168.1.111")
 
 ... lots and lots of "Received" lines in between ...
 
-01:33:51.410 DEBUG    [ATEMConnectionManager] Received: [InCm] (Not implemented: InCm)
+01:33:51.410 DEBUG    [ATEMConnectionManager] Received: [InCm] (Initialization Complete)
 01:33:51.411 DEBUG    [ATEMConnectionManager] Initial payload received @rpID 0x6 sessionId 0x8007
 01:33:51.412 DEBUG    [ATEMConnectionManager] ATEM model: ATEM Television Studio HD
 01:33:51.412 DEBUG    [ATEMConnectionManager] ATEM protocol version: 2.27
