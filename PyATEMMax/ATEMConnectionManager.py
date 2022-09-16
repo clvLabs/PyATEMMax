@@ -178,6 +178,13 @@ class ATEMConnectionManager():
         self._outBuf: ATEMBuffer = ATEMBuffer(self.atem.outputBufferLength)
 
 
+    def setPayloadSent(self):
+        if not self._initPayloadSent:
+            self._initPayloadSent = True
+            self._initPayloadSentAtPacketId = self.lastRemotePacketID
+            self.log.debug(f"Initial payload received @rpID 0x{self._initPayloadSentAtPacketId:X} sessionId 0x{self.sessionID:X}")
+
+
     def ping(self, ip: str, timeout: int =5) -> None:
         """Ping the switcher.
 
@@ -430,6 +437,9 @@ class ATEMConnectionManager():
                         # However, I'm not sure if I checked the lastRemotePacketID of the packets with the additional camera control info - if it was a resend,
                         # "InCm" may still indicate the number of the last init-packet and that's all I need to request the missing ones....
 
+                        # CHANGED as per https://github.com/clvLabs/PyATEMMax/issues/12:
+                        # The ATEMCommandHandlers::_handle_InCm() method will also call self.setPayloadSent()
+
                         # BTW: It has been observed on an old 10Mbit hub that packets could arrive in a different order than sent and this may
                         # mess things up a bit on the initialization. So it's recommended to has as direct routes as possible.
 
@@ -437,9 +447,7 @@ class ATEMConnectionManager():
                             packetLength == self.atem.headerLen and \
                             self.lastRemotePacketID > 1:
 
-                            self._initPayloadSent = True
-                            self._initPayloadSentAtPacketId = self.lastRemotePacketID
-                            self.log.debug(f"Initial payload received @rpID 0x{self._initPayloadSentAtPacketId:X} sessionId 0x{self.sessionID:X}")
+                            self.setPayloadSent()
 
                         # Respond to request for acknowledge    (and to resends also, whatever)...
                         if (headerBitmask & self.atem.cmdFlags.ackRequest.value) and \

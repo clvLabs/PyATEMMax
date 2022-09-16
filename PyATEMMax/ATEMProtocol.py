@@ -162,6 +162,7 @@ class ATEMProtocol:
         "TlIn": 'Tally By Index',
         "TlSr": 'Tally By Source',
         "Time": 'Last State Change Time Code',
+        'InCm': 'Initialization Complete',
 
         # These commands are not really unknown,
         #   but they are not implemented
@@ -175,7 +176,6 @@ class ATEMProtocol:
         'AMPP': 'Not implemented: AMPP',
         'ATMP': 'Not implemented: ATMP',
         'CCst': 'Not implemented: CCst',
-        'InCm': 'Not implemented: InCm',
         'LKST': 'Not implemented: LKST',
         'MMOP': 'Not implemented: MMOP',
         'MvVM': 'Not implemented: MvVM',

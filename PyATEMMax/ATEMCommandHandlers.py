@@ -152,9 +152,14 @@ class ATEMCommandHandlers():
     #  Command handler methods
     #
 
+    def _handle_InCm(self) -> None:
+        self._sw.setPayloadSent()
+
+
     def _handle_ver(self) -> None:
         self._d.protocolVersion.major = self._inBuf.getU16(0)
         self._d.protocolVersion.minor = self._inBuf.getU16(2)
+
 
     def _handle_pin(self) -> None:
         self._d.atemModel = self._inBuf.getString(0, 44)
