@@ -243,6 +243,8 @@ class ATEMVideoModeFormats(ATEMConstantList):
     f2160p24 = ATEMConstant('f2160p24', 15)                         # 2160p24
     f2160p25 = ATEMConstant('f2160p25', 16)                         # 2160p25
     f2160p29_97 = ATEMConstant('f2160p29_97', 17)                   # 2160p29.97
+    f1080p30 = ATEMConstant('f1080p30', 26)                         # 1080p30
+    f1080p60 = ATEMConstant('f1080p60', 27)                         # 1080p60
 
 
 class ATEMExternalPortTypes(ATEMConstantList):
