@@ -162,6 +162,8 @@ class ATEMVideoSources(ATEMConstantList):
     auxilary31 = ATEMConstant('auxilary31', 8031)
     auxilary32 = ATEMConstant('auxilary32', 8032)
 
+    multiViewer1 = ATEMConstant('multiViewer1', 9001)
+
     mE1Prog = ATEMConstant('mE1Prog', 10010)
     mE1Prev = ATEMConstant('mE1Prev', 10011)
     mE2Prog = ATEMConstant('mE2Prog', 10020)
@@ -172,6 +174,7 @@ class ATEMVideoSources(ATEMConstantList):
     mE4Prev = ATEMConstant('mE4Prev', 10041)
 
     input1Direct = ATEMConstant('input1Direct', 11001)
+    input2Direct = ATEMConstant('input2Direct', 11002)
 
 
 class ATEMAudioSources(ATEMConstantList):

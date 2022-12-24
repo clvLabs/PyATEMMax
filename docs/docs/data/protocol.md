@@ -127,7 +127,8 @@ While some others don't:
 * `auxilary1..24`
 * `mE1..4Prog`
 * `mE1..4Prev`
-* `input1Direct`
+* `multiViewer1`
+* `input1..2Direct`
 
 
 ### switcher.atem.audioSources (ATEMAudioSources)
