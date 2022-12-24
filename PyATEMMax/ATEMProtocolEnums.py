@@ -162,6 +162,8 @@ class ATEMVideoSources(ATEMConstantList):
     auxilary31 = ATEMConstant('auxilary31', 8031)
     auxilary32 = ATEMConstant('auxilary32', 8032)
 
+    multiViewer1 = ATEMConstant('multiViewer1', 9001)
+
     mE1Prog = ATEMConstant('mE1Prog', 10010)
     mE1Prev = ATEMConstant('mE1Prev', 10011)
     mE2Prog = ATEMConstant('mE2Prog', 10020)
@@ -172,6 +174,7 @@ class ATEMVideoSources(ATEMConstantList):
     mE4Prev = ATEMConstant('mE4Prev', 10041)
 
     input1Direct = ATEMConstant('input1Direct', 11001)
+    input2Direct = ATEMConstant('input2Direct', 11002)
 
 
 class ATEMAudioSources(ATEMConstantList):
@@ -240,6 +243,8 @@ class ATEMVideoModeFormats(ATEMConstantList):
     f2160p24 = ATEMConstant('f2160p24', 15)                         # 2160p24
     f2160p25 = ATEMConstant('f2160p25', 16)                         # 2160p25
     f2160p29_97 = ATEMConstant('f2160p29_97', 17)                   # 2160p29.97
+    f1080p30 = ATEMConstant('f1080p30', 26)                         # 1080p30
+    f1080p60 = ATEMConstant('f1080p60', 27)                         # 1080p60
 
 
 class ATEMExternalPortTypes(ATEMConstantList):

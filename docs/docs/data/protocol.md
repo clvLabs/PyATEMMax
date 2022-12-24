@@ -127,7 +127,8 @@ While some others don't:
 * `auxilary1..24`
 * `mE1..4Prog`
 * `mE1..4Prev`
-* `input1Direct`
+* `multiViewer1`
+* `input1..2Direct`
 
 
 ### switcher.atem.audioSources (ATEMAudioSources)
@@ -158,8 +159,10 @@ While some others don't:
 * `f1080p24`
 * `f1080p25`
 * `f1080p29_97`
+* `f1080p30`
 * `f1080p50`
 * `f1080p59_94`
+* `f1080p60`
 * `f2160p23_98`
 * `f2160p24`
 * `f2160p25`
