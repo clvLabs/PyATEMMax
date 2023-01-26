@@ -322,6 +322,67 @@ class ATEMAudioMixerInputTypes(ATEMConstantList):
     externalAudio = ATEMConstant('externalAudio', 2)
 
 
+class ATEMFairlightMixerInputMixOptions(ATEMConstantList):
+    """FairlightMixerInputMixOption list"""
+
+    off = ATEMConstant('off', 1)
+    on = ATEMConstant('on', 2)
+    afv = ATEMConstant('afv', 4)
+
+
+class ATEMFairlightMixerInputTypes(ATEMConstantList):
+    """FairlightMixerInputType list"""
+
+    externalVideo = ATEMConstant('externalVideo', 0)
+    mediaPlayer = ATEMConstant('mediaPlayer', 1)
+    externalAudio = ATEMConstant('externalAudio', 2)
+    MADI = ATEMConstant('MADI', 3)
+
+
+class ATEMFairlightMixerSourceTypes(ATEMConstantList):
+    """ATEMFairlightMixerSourceType list
+    Converted from signed to unsigned to allow easier parsing
+    """
+
+    stereo = ATEMConstant('stereo', 18446744073709486336)
+    mono1 = ATEMConstant('mono1', 18446744073709551360)
+    mono2 = ATEMConstant('mono2', 18446744073709551361)
+
+
+class ATEMFairlightEQFilters(ATEMConstantList):
+    """ATEMFairlightEQFilters list
+
+    https://iconcollective.edu/types-of-eq/ has good explainations
+    of what the different filters do.
+    """
+
+    lowShelf = ATEMConstant('lowShelf',     1 << 0)
+    highCut = ATEMConstant('highCut',       1 << 1)
+    bellCurve = ATEMConstant('bellCurve',   1 << 2)
+    notch = ATEMConstant('notch',           1 << 3)
+    lowCut = ATEMConstant('lowCut',         1 << 4)
+    highShelf = ATEMConstant('highShelf',   1 << 5)
+
+
+class ATEMFairlightEQFrequencyRanges(ATEMConstantList):
+    """ATEMFairlightEQFrequencyRanges list
+
+    ---
+    | Frequency Range | Min Freq | Max Freq |
+    |-----------------|----------|----------|
+    | low             |       30 |      395 |
+    | midlow          |      100 |     1480 |
+    | midhigh         |      450 |     7910 |
+    | high            |     1400 |    21700 |
+    ---
+    """
+
+    low = ATEMConstant('low',           1 << 0)
+    midlow = ATEMConstant('midlow',     1 << 1)
+    midhigh = ATEMConstant('midhigh',   1 << 2)
+    high = ATEMConstant('high',         1 << 3)
+
+
 class ATEMAudioMixerInputPlugTypes(ATEMConstantList):
     """AudioMixerInputPlugType list"""
 

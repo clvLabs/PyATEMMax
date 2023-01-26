@@ -11,7 +11,7 @@ Methods do keep the order in https://www.skaarhoj.com/fileadmin/BMDPROTOCOL.html
 
 from typing import Callable
 
-from .ATEMUtils import boolBit, mapValue
+from .ATEMUtils import boolBit, mapValue, getComponents
 from .ATEMProtocolEnums import *
 from .ATEMException import ATEMException
 
@@ -898,6 +898,151 @@ class ATEMCommandHandlers():
             videoSource = self._getBufVideoSource(byteOffset).value
             self._d.tally.bySource.flags[videoSource].program = self._inBuf.getU8Flag(byteOffset+2, 0)
             self._d.tally.bySource.flags[videoSource].preview = self._inBuf.getU8Flag(byteOffset+2, 1)
+
+
+    def _handleFASP(self) -> None:
+        """
+        Fairlight audio mixer state.
+        Gets 48 bytes.
+        ---
+        | Byte # |    Description    |          Value Range          |
+        |--------|-------------------|-------------------------------|
+        |      0 | Input Index       | ATEMAudioSources              |
+        |      8 | Audio Source      | fairlightMixerSourceTypes     |
+        |     16 | Source Type       | ??                            |
+        |     17 | Max Frames Delay  | from 0 to 8                   |
+        |     18 | Frames Delay      | from 0 to 8                   |
+        |     20 | Gain              | from -10000 to 600            |
+        |     29 | EQ enabled        | True if > 0                   |
+        |     32 | EQ gain           | from -2000 to 2000            |
+        |     36 | Dynamics gain     | from 0 to 2000                |
+        |     40 | Balance           | from -10000 to 10000          |
+        |     44 | Volume (Fader)    | from -10000 to 1000           |
+        |     48 | Valid mix options | from 0b0000 to 0b0111         |
+        |     49 | Mix option        | fairlightMixerInputMixOptions |
+        ---
+        """
+        audioInput = self._getBufAudioSource(0)
+        _audioSource = self._getBufEnum(8, 64, self._p.fairlightMixerSourceTypes)
+
+        # Not quite sure what this does and how to use it
+        self._d.fairlightMixer.input[audioInput].type = self._getBufEnum(16, 8, self._p.fairlightMixerInputTypes)
+
+        self._d.fairlightMixer.input[audioInput].maxFramesDelay = self._inBuf.getU8(17)
+        self._d.fairlightMixer.input[audioInput].framesDelay = self._inBuf.getU8(18)
+
+        self._d.fairlightMixer.input[audioInput].gain = self._inBuf.getS32(20) / 100
+
+        self._d.fairlightMixer.input[audioInput].hasStereoSimulation = self._inBuf.getU8(24) > 0
+        self._d.fairlightMixer.input[audioInput].stereoSimulation = self._inBuf.getS32(26)
+
+        self._d.fairlightMixer.input[audioInput].equalizer.bandCount = self._inBuf.getU8(28)
+        self._d.fairlightMixer.input[audioInput].equalizer.enabled = self._inBuf.getS32(29) > 0
+        self._d.fairlightMixer.input[audioInput].equalizer.gain = self._inBuf.getS32(32) / 100
+
+        self._d.fairlightMixer.input[audioInput].dynamics.makeUpGain = self._inBuf.getS32(36) / 100
+
+        self._d.fairlightMixer.input[audioInput].balance = self._inBuf.getS16(40) / 100
+        self._d.fairlightMixer.input[audioInput].volume = self._inBuf.getS32(44) / 100
+
+        self._d.fairlightMixer.input[audioInput].validMixOptions = getComponents(self._inBuf.getU8(48))
+        self._d.fairlightMixer.input[audioInput].mixOption = self._getBufEnum(49, 8, self._p.fairlightMixerInputMixOptions)
+
+
+    def _handleAEBP(self) -> None:
+        """
+        Fairlight input EQ band state.
+        Gets 32 bytes.
+        ---
+        | Byte # |        Description         |        Value Range         |
+        |--------|----------------------------|----------------------------|
+        |      0 | Input Index                | ATEMAudioSources           |
+        |      8 | Audio Source               | fairlightMixerSourceTypes  |
+        |     16 | EQ band index              | from 0 to 5                |
+        |     17 | EQ band enabled            | True if > 0                |
+        |     18 | Supported Shapes           | fairlightEQFilters         |
+        |     19 | Shape                      | fairlightEQFilters         |
+        |     20 | Supported frequency ranges | fairlightEQFrequencyRanges |
+        |     21 | Frequency range            | fairlightEQFrequencyRanges |
+        |     24 | Frequency                  | from 30 to 21700           |
+        |     28 | Gain                       | from -2000 to 2000         |
+        |     32 | Q Factor                   | from 30 to 1030            |
+        ---
+        """
+        audioInput = self._getBufAudioSource(0)
+        band_index = self._inBuf.getU8(16)
+        eq_band = self._d.fairlightMixer.input[audioInput].equalizer.band[band_index]
+
+        eq_band.enabled = self._inBuf.getU8(17) > 0
+        eq_band.supported_filters = getComponents(self._inBuf.getU8(18))
+        eq_band.filter = self._getBufEnum(19, 8, self._p.fairlightEQFilters)
+        eq_band.supported_frequency_ranges = getComponents(self._inBuf.getU8(20))
+        eq_band.frequency_range = self._getBufEnum(21, 8, self._p.fairlightEQFrequencyRanges)
+
+        eq_band.frequency = self._inBuf.getS32(24)
+        eq_band.gain = self._inBuf.getS32(28) / 100
+        eq_band.qFactor = self._inBuf.getS16(32) / 100
+
+
+    def _handleFAMP(self) -> None:
+        """
+        Fairlight mixer master state.
+        Gets 16 bytes.
+        ---
+        | Byte # |      Description      |     Value Range     |
+        |--------|-----------------------|---------------------|
+        |      0 | EQ band count         | from 0 to 255       |
+        |      1 | EQ enabled            | True if > 0         |
+        |      4 | EQ gain               | -2000 to 2000       |
+        |      8 | Dynamics gain         | from 0 to 2000      |
+        |     12 | Master volume (fader) | from -10000 to 1000 |
+        |     16 | Follow FTB            | True if > 0         |
+        ---
+        """
+        self._d.fairlightMixer.master.equalizer.bandCount = self._inBuf.getU8(0)
+        self._d.fairlightMixer.master.equalizer.enabled = self._inBuf.getU8(1) > 0
+        self._d.fairlightMixer.master.equalizer.gain = self._inBuf.getS32(4) / 100
+        self._d.fairlightMixer.master.dynamics.makeUpGain = self._inBuf.getS32(8) / 100
+
+        self._d.fairlightMixer.master.volume = self._inBuf.getS32(12) / 100
+        self._d.fairlightMixer.master.followFadeToBlack = self._inBuf.getU8(16) > 0
+
+
+    def _handleAMBP(self) -> None:
+        """
+        Fairlight audio master EQ band state.
+        Gets 20 bytes.
+        ---
+        | Byte # |        Description         |        Value Range         |
+        |--------|----------------------------|----------------------------|
+        |      0 | EQ band index              | from 0 to 5                |
+        |      1 | EQ band enabled            | True if > 0                |
+        |      2 | Supported Shapes           | fairlightEQFilters         |
+        |      3 | Shape                      | fairlightEQFilters         |
+        |      4 | Supported frequency ranges | fairlightEQFrequencyRanges |
+        |      5 | Frequency range            | fairlightEQFrequencyRanges |
+        |      8 | Frequency                  | from 30 to 21700           |
+        |     12 | Gain                       | from -2000 to 2000         |
+        |     16 | Q Factor                   | from 30 to 1030            |
+        ---
+        """
+        band_index = self._inBuf.getU8(0)
+        eq_band = self._d.fairlightMixer.master.equalizer.band[band_index]
+
+        eq_band.enabled = self._inBuf.getU8(1) > 0
+        eq_band.supported_filters = getComponents(self._inBuf.getU8(2))
+        eq_band.filter = self._getBufEnum(3, 8, self._p.fairlightEQFilters)
+        eq_band.supported_frequency_ranges = getComponents(self._inBuf.getU8(4))
+        eq_band.frequency_range = self._getBufEnum(5, 8, self._p.fairlightEQFrequencyRanges)
+
+        eq_band.frequency = self._inBuf.getS32(8)
+        eq_band.gain = self._inBuf.getS32(12) / 100
+        eq_band.qFactor = self._inBuf.getS16(16) / 100
+
+
+    def _handleFMTl(self) -> None:
+        # Fairlight mixer tally commands
+        pass
 
 
     def _handleTime(self) -> None:

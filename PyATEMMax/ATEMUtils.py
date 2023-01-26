@@ -139,3 +139,17 @@ def mapValue(value:float, minFrom:float, maxFrom:float, minTo:float, maxTo:float
     rangeTo = maxTo - minTo
     scaled = (value - minFrom) / rangeFrom
     return minTo + (scaled * rangeTo)
+
+
+def getComponents(val: int) -> list[int]:
+    """Binary components of an integer
+
+    e.g. 7 (0b111) would return [0b100, 0b010, 0b001]
+    """
+    components = []
+    next_bit = 1
+    while next_bit <= val:
+        if (val & next_bit) > 0:
+            components.append(next_bit)
+        next_bit = next_bit << 1
+    return components

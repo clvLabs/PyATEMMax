@@ -77,6 +77,11 @@ class ATEMProtocol:
     dVETransitionStyles = ATEMDVETransitionStyles()
     dsks = ATEMDSKs()
     externalPortTypes = ATEMExternalPortTypes()
+    fairlightMixerInputMixOptions = ATEMFairlightMixerInputMixOptions()
+    fairlightMixerInputTypes = ATEMFairlightMixerInputTypes()
+    fairlightMixerSourceTypes = ATEMFairlightMixerSourceTypes()
+    fairlightEQFilters = ATEMFairlightEQFilters()
+    fairlightEQFrequencyRanges = ATEMFairlightEQFrequencyRanges()
     keyers = ATEMKeyers()
     keyerTypes = ATEMKeyerTypes()
     keyFrames = ATEMKeyFrames()
@@ -161,6 +166,15 @@ class ATEMProtocol:
         "AMTl": 'Audio Mixer Tally',
         "TlIn": 'Tally By Index',
         "TlSr": 'Tally By Source',
+
+        # Fairlight audio engine commands
+        'FASP': 'Fairlight Audio Mixer Input',
+        'AEBP': "Fairlight Audio Input EQ Bands",
+        'FAMP': 'Fairlight Audio Mixer Master',
+        'AMBP': "Fairlight Audio Master EQ Bands",
+        # 'FMLv': "Fairlight Audio Input Level",
+        # 'FMTl': 'Fairlight Tally Command',
+
         "Time": 'Last State Change Time Code',
         'InCm': 'Initialization Complete',
 

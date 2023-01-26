@@ -13,6 +13,7 @@ from typing import Union
 
 from .ATEMUtils import mapValue
 from .ATEMProtocolEnums import *
+from .StateData import FairlightMixer
 
 # --------------------------------------------------
 # This is a trick to have type hints from classes
@@ -44,6 +45,7 @@ class ATEMSetterMethods():
         self.switcher: ATEMConnectionManager
         self.data: ATEMSwitcherState
         self.atem: ATEMProtocol
+        self.fairlightMixer: FairlightMixer
 
 
     # #######################################################################
@@ -4088,4 +4090,493 @@ class ATEMSetterMethods():
         self.switcher._prepareCommandPacket("RAMP", 8)
         self.switcher._outBuf.setU8Flag(0, 2)
         self.switcher._outBuf.setU8(4, master)
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputMixOption(self, audioSource: Union[ATEMConstant, str, int], mixOption: Union[ATEMConstant, str, int]) -> None:
+        """Set Fairlight Mixer Input Mix Option
+
+        Args:
+            audioSource: see ATEMAudioSources
+            mixOption: see ATEMFairlightMixerInputMixOptions
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+        mixOption_val = self.atem.fairlightMixerInputMixOptions[mixOption].value
+
+        self.switcher._prepareCommandPacket("CFSP", 48)
+        self.switcher._outBuf.setU16Flag(0, 8)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(44, mixOption_val)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputVolume(self, audioSource: Union[ATEMConstant, str, int], db: float) -> None:
+        """Set Fairlight Mixer Input Mix Option
+
+        Args:
+            audioSource: see ATEMAudioSources
+            db (float): -100 to +10: volume in dB
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CFSP", 48)
+        self.switcher._outBuf.setU16Flag(0, 7)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setS32(40, int(db * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputBalance(self, audioSource: Union[ATEMConstant, str, int], balance: float) -> None:
+        """Set Fairlight Mixer Input Balance
+
+        Args:
+            audioSource: see ATEMAudioSources
+            balance (float): -100 to 100: Left/Right Extremes
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CFSP", 48)
+        self.switcher._outBuf.setU16Flag(0, 6)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setS16(36, int(balance * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputGain(self, audioSource: Union[ATEMConstant, str, int], gain: float) -> None:
+        """Set Fairlight Mixer Input Gain
+
+        Args:
+            audioSource: see ATEMAudioSources
+            gain (float): -100 to +6: gain in db
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CFSP", 48)
+        self.switcher._outBuf.setU16Flag(0, 1)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setS32(20, int(gain * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputFramesDelay(self, audioSource: Union[ATEMConstant, str, int], delay: int) -> None:
+        """Set Fairlight Mixer Input Frames Delay
+
+        Args:
+            audioSource: see ATEMAudioSources
+            delay (int): 0 to `fairlightMixer.input[<audioSource>].maxFramesDelay`: delay in frames
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CFSP", 48)
+        self.switcher._outBuf.setU16Flag(0, 0)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(16, delay)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQEnabled(self, audioSource: Union[ATEMConstant, str, int], enabled: bool) -> None:
+        """Enable or Disable EQ on an Input
+
+        Args:
+            audioSource: see ATEMAudioSources
+            enabled (bool): EQ enabled/disabled
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CFSP", 48)
+        self.switcher._outBuf.setU16Flag(0, 3)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(26, enabled)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQGain(self, audioSource: Union[ATEMConstant, str, int], db: float) -> None:
+        """Set Input Gain for EQ
+
+        Args:
+            audioSource: see ATEMAudioSources
+            db (float): -20 to +20: gain in db
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CFSP", 48)
+        self.switcher._outBuf.setU16Flag(0, 4)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setS32(28, int(db * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQBandEnabled(self, audioSource: Union[ATEMConstant, str, int], band: int, enabled: bool) -> None:
+        """Enable or Disable an Input EQ Band
+
+        Args:
+            audioSource: see ATEMAudioSources
+            band (int): Index of EQ band
+            enabled (bool): Band enabled/disabled
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CEBP", 32)
+        self.switcher._outBuf.setU8Flag(0, 0)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(16, band)
+        self.switcher._outBuf.setU8(17, enabled)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQBandFilter(self, audioSource: Union[ATEMConstant, str, int], band: int, filterShape: Union[ATEMConstant, str, int]) -> None:
+        """Set Filter Shape of an Input EQ Band
+
+        Args:
+            audioSource: see ATEMAudioSources
+            band (int): Index of EQ band
+            filterShape: See ATEMFairlightEQFilters
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+        filter_val = self.atem.fairlightEQFilters[filterShape].value
+
+        self.switcher._prepareCommandPacket("CEBP", 32)
+        self.switcher._outBuf.setU8Flag(0, 1)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(16, band)
+        self.switcher._outBuf.setU8(18, filter_val)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQBandFrequencyRange(self, audioSource: Union[ATEMConstant, str, int], band: int, frequencyRange: Union[ATEMConstant, str, int]) -> None:
+        """Set Frequency Range of an Input EQ Band
+
+        Args:
+            audioSource: see ATEMAudioSources
+            band (int): Index of EQ band
+            frequencyRange: See ATEMFairlightEQFrequencyRanges
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+        freq_range_val = self.atem.fairlightEQFrequencyRanges[frequencyRange].value
+
+        self.switcher._prepareCommandPacket("CEBP", 32)
+        self.switcher._outBuf.setU8Flag(0, 2)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(16, band)
+        self.switcher._outBuf.setU8(19, freq_range_val)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQBandFrequency(self, audioSource: Union[ATEMConstant, str, int], band: int, frequency: int) -> None:
+        """Set Frequency of an Input EQ Band
+
+        Args:
+            audioSource: see ATEMAudioSources
+            band (int): Index of EQ band
+            frequency (int): +30 to +21700: frequency in Hz
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CEBP", 32)
+        self.switcher._outBuf.setU8Flag(0, 3)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(16, band)
+        self.switcher._outBuf.setS32(20, frequency)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQBandGain(self, audioSource: Union[ATEMConstant, str, int], band: int, db: float) -> None:
+        """Set Gain of an Input EQ Band
+
+        Args:
+            audioSource: see ATEMAudioSources
+            band (int): Index of EQ band
+            db (float): -20 to +20: gain in db
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CEBP", 32)
+        self.switcher._outBuf.setU8Flag(0, 4)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(16, band)
+        self.switcher._outBuf.setS32(24, int(db * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQBandQFactor(self, audioSource: Union[ATEMConstant, str, int], band: int, qFactor: float) -> None:
+        """Set Q Factor of an Input EQ Band
+
+        Args:
+            audioSource: see ATEMAudioSources
+            band (int): Index of EQ band
+            db (float): -0.3 to +10.3: Q Factor
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("CEBP", 32)
+        self.switcher._outBuf.setU8Flag(0, 5)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(16, band)
+        self.switcher._outBuf.setS16(28, int(qFactor * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQReset(self, audioSource: Union[ATEMConstant, str, int]) -> None:
+        """Reset an Input EQ
+        Args:
+            audioSource: see ATEMAudioSources
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("RICE", 20)
+        self.switcher._outBuf.setU8Flag(0, 0)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+
+        self.switcher._outBuf.setU8(16, True)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerInputEQBandReset(self, audioSource: Union[ATEMConstant, str, int], band: int) -> None:
+        """Reset an Input EQ band
+
+        Args:
+            audioSource: see ATEMAudioSources
+            band (int): Index of EQ band
+        """
+        audioSource_val = self.atem.getAudioSrc(audioSource)
+
+        self.switcher._prepareCommandPacket("RICE", 20)
+        self.switcher._outBuf.setU8Flag(0, 1)
+        self.switcher._outBuf.setU16(2, audioSource_val)
+        self.switcher._outBuf.setS64(8, -65280) # Hacky fix to assume stereo
+        self.switcher._outBuf.setU8(17, band)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterVolume(self, db: float) -> None:
+        """Set Fairlight Mixer Master Volume
+
+        Args:
+            db (float): -100 to +10: volume in dB
+        """
+        self.switcher._prepareCommandPacket("CFMP", 20)
+        self.switcher._outBuf.setU8Flag(0, 3)
+
+        self.switcher._outBuf.setS32(12, int(db * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterFollowFTB(self, followFTB: bool) -> None:
+        """Set Fairlight Mixer Master Property 'Follow Fade To Black'
+
+        Args:
+            followFTB (bool): whether master mutes when FTB is active
+        """
+        self.switcher._prepareCommandPacket("CFMP", 20)
+        self.switcher._outBuf.setU8Flag(0, 4)
+
+        self.switcher._outBuf.setU8(16, followFTB)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterEQEnabled(self, enabled: bool) -> None:
+        """Enable or Disable Master EQ
+
+        Args:
+            enabled (bool): EQ enabled/disabled
+        """
+        self.switcher._prepareCommandPacket("CFMP", 20)
+        self.switcher._outBuf.setU8Flag(0, 0)
+
+        self.switcher._outBuf.setU8(1, enabled)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterEQGain(self, db: float) -> None:
+        """Set Master EQ Gain
+
+        Args:
+            db (float): -20 to +20: gain in db
+        """
+        self.switcher._prepareCommandPacket("CFMP", 20)
+        self.switcher._outBuf.setU8Flag(0, 1)
+
+        self.switcher._outBuf.setS32(4, int(db * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterEQBandEnabled(self, band: int, enabled: bool) -> None:
+        """Enable or Disable a MasterEQ Band
+
+        Args:
+            band (int): Index of EQ band
+            enabled (bool): Band enabled/disabled
+        """
+        self.switcher._prepareCommandPacket("CMBP", 20)
+        self.switcher._outBuf.setU8Flag(0, 0)
+        self.switcher._outBuf.setU8(1, band)
+
+        self.switcher._outBuf.setU8(2, enabled)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterEQBandFilter(self, band: int, filterShape: Union[ATEMConstant, str, int]) -> None:
+        """Set Filter Shape of a Master EQ Band
+
+        Args:
+            band (int): Index of EQ band
+            filterShape: See ATEMFairlightEQFilters
+        """
+        filter_val = self.atem.fairlightEQFilters[filterShape].value
+
+        self.switcher._prepareCommandPacket("CMBP", 20)
+        self.switcher._outBuf.setU8Flag(0, 1)
+        self.switcher._outBuf.setU8(1, band)
+
+        self.switcher._outBuf.setU8(3, filter_val)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterEQBandFrequencyRange(self, band: int, frequencyRange: Union[ATEMConstant, str, int]) -> None:
+        """Set Frequency Range of a Master EQ Band
+
+        Args:
+            band (int): Index of EQ band
+            frequencyRange: See ATEMFairlightEQFrequencyRanges
+        """
+        freq_range_val = self.atem.fairlightEQFrequencyRanges[frequencyRange].value
+
+        self.switcher._prepareCommandPacket("CMBP", 20)
+        self.switcher._outBuf.setU8Flag(0, 2)
+        self.switcher._outBuf.setU8(1, band)
+
+        self.switcher._outBuf.setU8(4, freq_range_val)
+
+        self.switcher._finishCommandPacket()
+
+    def setFairlightMixerMasterEQBandFrequency(self, band: int, frequency: int) -> None:
+        """Set Frequency of a Master EQ Band
+
+        Args:
+            band (int): Index of EQ band
+            frequency (int): +30 to +21700: frequency in Hz
+        """
+        self.switcher._prepareCommandPacket("CMBP", 20)
+        self.switcher._outBuf.setU8Flag(0, 3)
+        self.switcher._outBuf.setU8(1, band)
+
+        self.switcher._outBuf.setS32(8, frequency)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterEQBandGain(self, band: int, db: float) -> None:
+        """Set Gain of a Master EQ Band
+
+        Args:
+            band (int): Index of EQ band
+            db (float): -20 to +20: gain in db
+        """
+        self.switcher._prepareCommandPacket("CMBP", 20)
+        self.switcher._outBuf.setU8Flag(0, 4)
+        self.switcher._outBuf.setU8(1, band)
+
+        self.switcher._outBuf.setS32(12, int(db * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterEQBandQFactor(self, band: int, qFactor: float) -> None:
+        """Set Q Factor of a Master EQ Band
+
+        Args:
+            band (int): Index of EQ band
+            db (float): -0.3 to +10.3: Q Factor
+        """
+        self.switcher._prepareCommandPacket("CMBP", 20)
+        self.switcher._outBuf.setU8Flag(0, 5)
+        self.switcher._outBuf.setU8(1, band)
+
+        self.switcher._outBuf.setS16(16, int(qFactor * 100))
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterEQReset(self) -> None:
+        """Reset Master EQ"""
+        self.switcher._prepareCommandPacket("RMOE", 4)
+        self.switcher._outBuf.setU8Flag(0, 0)
+        self.switcher._outBuf.setU8(1, True)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightMixerMasterEQBandReset(self, band: int) -> None:
+        """Reset a Master EQ band
+
+        Args:
+            band (int): Index of EQ band
+        """
+        self.switcher._prepareCommandPacket("RMOE", 4)
+        self.switcher._outBuf.setU8Flag(0, 1)
+        self.switcher._outBuf.setU8(2, band)
+
+        self.switcher._finishCommandPacket()
+
+
+    def setFairlightLevelsEnable(self, enableLevels: bool):
+        """Set if the Fairlight Mixer should send us audio levels.
+
+        Be aware sending audio levels uses a significant amount of bandwidth
+        when active.
+
+        Args:
+            enableLevels (bool): whether the fairlight mixer should send audio levels to us
+        """
+        self.switcher._prepareCommandPacket("SFLN", 4)
+        self.switcher._outBuf.setU8(0, enableLevels)
+
         self.switcher._finishCommandPacket()

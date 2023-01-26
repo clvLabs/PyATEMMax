@@ -27,6 +27,7 @@ class ATEMSwitcherState():
         self.downConverter:DownConverter = DownConverter()
         self.downstreamKeyer: DownStreamKeyerList = DownStreamKeyerList()
         self.fadeToBlack: FadeToBlackList = FadeToBlackList()
+        self.fairlightMixer: FairlightMixer = FairlightMixer()
         self.inputProperties: InputPropertiesList = InputPropertiesList()
         self.key: KeyList = KeyList()
         self.keyer: KeyerList = KeyerList()
