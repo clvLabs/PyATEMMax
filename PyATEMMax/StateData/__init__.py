@@ -14,6 +14,7 @@ from PyATEMMax.StateData.ColorGenerator import *
 from PyATEMMax.StateData.DownConverter import *
 from PyATEMMax.StateData.DownStreamKeyer import *
 from PyATEMMax.StateData.FadeToBlack import *
+from PyATEMMax.StateData.FairlightMixer import *
 from PyATEMMax.StateData.InputProperties import *
 from PyATEMMax.StateData.Key import *
 from PyATEMMax.StateData.Keyer import *
