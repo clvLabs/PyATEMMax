@@ -2748,7 +2748,25 @@ class ATEMSetterMethods():
         self.switcher._outBuf.setS16(16, value)
 
         self.switcher._finishCommandPacket()
+        
+    def setCameraControlZoomDistance(self, camera: Union[ATEMConstant, str, int], mm: int) -> None:
+            """Set Camera Control Zoom Distance
 
+            Args:
+                camera: see ATEMCameras
+                mm (int): Lens Min-Max 
+            """
+
+            camera_val = self.atem.cameras[camera].value
+
+            self.switcher._prepareCommandPacket("CCmd", 24)
+            self.switcher._outBuf.setU8(0, camera_val)
+            self.switcher._outBuf.setU8(1, 0)
+            self.switcher._outBuf.setU8(2, 7)
+            self.switcher._outBuf.setU8(4, 0x02)
+            self.switcher._outBuf.setU8(9, 0x01)
+            self.switcher._outBuf.setS16(16, mm)
+            self.switcher._finishCommandPacket()
 
     def setCameraControlColorbars(self, camera: Union[ATEMConstant, str, int], colorbars: int) -> None:
         """Set Camera Control Colorbars
@@ -3153,7 +3171,7 @@ class ATEMSetterMethods():
         self.switcher._outBuf.setU8(2, 5)
         self.switcher._outBuf.setU8(4, 0x03)
         self.switcher._outBuf.setU8(11, 0x01)
-        self.switcher._outBuf.setS16(18, int(shutter*1000000))
+        self.switcher._outBuf.setU16(18, int(shutter*1000000))
         self.switcher._finishCommandPacket()
 
 
@@ -3213,7 +3231,7 @@ class ATEMSetterMethods():
             hue (float): 0.0-359.9 degrees
         """
 
-        self.setCameraControlHueSaturation(camera, hue, self.data.cameraControl[camera].saturation)
+        self.setCameraControlHueSaturation(camera, hue, self.cameraControl[camera].saturation)
 
 
     def setCameraControlSaturation(self, camera: Union[ATEMConstant, str, int], saturation: float) -> None:
@@ -3224,18 +3242,8 @@ class ATEMSetterMethods():
             saturation (float):  0.0-100.0 (%)
         """
 
-        self.setCameraControlHueSaturation(camera, self.data.cameraControl[camera].hue, saturation)
+        self.setCameraControlHueSaturation(camera, self.cameraControl[camera].hue, saturation)
 
-
-    def setCameraControlVideomode(self, camera: Union[ATEMConstant, str, int], fps: int, resolution: int, interlaced: int) -> None:
-        """Set Camera Control Video Mode
-
-        Args:
-            camera: see ATEMCameras
-            fps (int): ?
-            resolution (int): ?
-            interlaced (int): ?
-        """
 
         camera_val = self.atem.cameras[camera].value
 
@@ -3247,12 +3255,60 @@ class ATEMSetterMethods():
         self.switcher._outBuf.setU8(7, 0x05)   # 5 Byte array
         #self.switcher._outBuf.setU8(9, 0x05)   # 5 byte array
         self.switcher._outBuf.setU8(16, fps)
-        self.switcher._outBuf.setU8(17, 0x00)   # Regular M-rate
+        self.switcher._outBuf.setU8(17, 0x01)   # Regular M-rate
         self.switcher._outBuf.setU8(18, resolution)
         self.switcher._outBuf.setU8(19, interlaced)
         self.switcher._outBuf.setU8(20, 0x00)   # YUV
         self.switcher._finishCommandPacket()
 
+    def setCameraControlVideomode(self, camera: Union[ATEMConstant, str, int], video_mode: str) -> None:
+        """Set Camera Control Video Mode
+        fps: int, resolution: int, pal_or_ntsc: str, interlaced: int
+        Args:
+            camera: see ATEMCameras
+            video_mode: 
+        """
+        # 0= resolution // 1= framerate (approx!) // 2= interlaced ("i" or "p") // 3= NTSC or PAL
+        video_mode_dict = {
+            #"f1080i50": (1,3,1,1), #Not supported by camera
+            #"f525i59_94_ntsc" : 
+            #"f625i_50_pal"
+            #"f525i59_94_ntsc_16_9" 
+            #"f625i_50_pal_16_9"
+            #"f1080i23_98": (0,3,1,1),
+            #"f1080i24": (0,3,1,0),
+            "f720p50": (3,2,0,0),
+            "f720p59_94":(4,2,0,1),
+            "f1080i25": (1,3,1,0),
+            "f1080i29_97": (2,3,0,1),
+            "f1080i59_94": (2,3,1,1),
+            "f1080p23_98": (0,3,0,1),
+            "f1080p24": (0,3,0,0),
+            "f1080p25": (1,3,0,0),
+            "f1080p29_97": (2,3,0,1),
+            "f1080p50": (3,3,0,0),
+            "f1080p59_94": (4,3,0,1),
+            "f2160p23_98": (0,6,0,1),
+            "f2160p24": (0,6,0,0),
+            "f2160p25": (1,6,0,0),
+            "f2160p29_97": (2,6,0,1),
+        }
+
+        camera_val = self.atem.cameras[camera].value
+
+        self.switcher._prepareCommandPacket("CCmd", 24)
+        self.switcher._outBuf.setU8(0, camera_val)
+        self.switcher._outBuf.setU8(1, 1)
+        self.switcher._outBuf.setU8(2, 0)
+        self.switcher._outBuf.setU8(4, 0x01)   # Data type: int8
+        self.switcher._outBuf.setU8(7, 0x05)   # 5 Byte array
+        #self.switcher._outBuf.setU8(9, 0x05)   # 5 byte array
+        self.switcher._outBuf.setU8(16, video_mode_dict[video_mode][0])
+        self.switcher._outBuf.setU8(17, video_mode_dict[video_mode][3])   # Regular M-rate
+        self.switcher._outBuf.setU8(18, video_mode_dict[video_mode][1])
+        self.switcher._outBuf.setU8(19, video_mode_dict[video_mode][2])
+        self.switcher._outBuf.setU8(20, 0x00)   # YUV
+        self.switcher._finishCommandPacket()
 
     def setClipPlayerPlaying(self, mediaPlayer: Union[ATEMConstant, str, int], playing: bool) -> None:
         """Set Clip Player Playing
