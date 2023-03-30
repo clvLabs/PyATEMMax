@@ -240,6 +240,18 @@ class ATEMVideoModeFormats(ATEMConstantList):
     f2160p24 = ATEMConstant('f2160p24', 15)                         # 2160p24
     f2160p25 = ATEMConstant('f2160p25', 16)                         # 2160p25
     f2160p29_97 = ATEMConstant('f2160p29_97', 17)                   # 2160p29.97
+    f2160p50 = ATEMConstant('f2160p50', 18)                         # 2160p50
+    f2160p59_94 = ATEMConstant('f2160p59_94', 19)                   # 2160p59.94
+    f4320p23_98 = ATEMConstant('f4320p23_98', 20)                   # 4320p23.98
+    f4320p24 = ATEMConstant('f4320p24', 21)                         # 4320p24
+    f4320p25 = ATEMConstant('f4320p25', 22)                         # 4320p25
+    f4320p29_97 = ATEMConstant('f4320p29_97', 23)                   # 4320p29.97
+    f4320p50 = ATEMConstant('f4320p50', 24)                         # 4320p50
+    f4320p59_94 = ATEMConstant('f4320p59_94', 25)                   # 4320p59.94
+    f1080p30 = ATEMConstant('f1080p30', 26)                         # 1080p30
+    f1080p60 = ATEMConstant('f1080p60', 27)                         # 1080p60
+    f720p60 = ATEMConstant('f720p60', 28)                           # 720p60
+    f1080i60 = ATEMConstant('f1080i60', 29)                         # 1080i60
 
 
 class ATEMExternalPortTypes(ATEMConstantList):
